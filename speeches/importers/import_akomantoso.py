@@ -81,6 +81,8 @@ class ImportAkomaNtoso (ImporterBase):
         if source_url:
             source_url = source_url.get('href')
 
+        self.imported_section_ids = set()
+
         section = None
         if docTitle:
             kwargs = {
@@ -94,7 +96,8 @@ class ImportAkomaNtoso (ImporterBase):
             }
 
             section = self.make_section(**kwargs)
-            if not section: return
+            if not section:
+                return
 
         self.visit(debate.debateBody, section)
         return self.stats
@@ -110,23 +113,34 @@ class ImportAkomaNtoso (ImporterBase):
     def make_section(self, **kwargs):
         # If the importer has no opinion on clobbering, just import the section,
         # potentially creating a duplicate section.
-        if self.clobber is not None:
-            try:
-                section = Section.objects.for_instance(self.instance).get(**kwargs)
+        if self.clobber:
+            qs = Section.objects.for_instance(self.instance).filter(**kwargs)
+            if qs:
                 if self.clobber == 'replace':
                     logger.info('Replacing %s' % kwargs.get('heading'))
-                    for speech in section.descendant_speeches():
-                        speech.delete()
-                    section.delete()
+                    # Delete old sections, unless they are from this import
+                    for section in qs:
+                        if section.id in self.imported_section_ids:
+                            break
+                        for speech in section.descendant_speeches():
+                            speech.delete()
+                        section.delete()
                 elif self.clobber == 'merge':
-                    logger.info('Merging %s' % kwargs.get('heading'))
-                    return section
+                    # Return (any of) existing section(s), unless it is from this import
+                    section = qs[0]
+                    if section.id in self.imported_section_ids:
+                        logger.info('Importing %s' % kwargs.get('heading'))
+                    else:
+                        logger.info('Merging %s' % kwargs.get('heading'))
+                        return section
                 else:
                     logger.info('Skipping %s' % kwargs.get('heading'))
                     return None
-            except Section.DoesNotExist:
+            else:
                 logger.info('Importing %s' % kwargs.get('heading'))
-        return self.make(Section, **kwargs)
+        section = self.make(Section, **kwargs)
+        self.imported_section_ids.add(section.id)
+        return section
 
     def get_tag(self, node):
         return etree.QName(node.tag).localname
@@ -198,8 +212,8 @@ class ImportAkomaNtoso (ImporterBase):
                     start_date=self.start_date,
                     **headings
                 )
-                if not childSection: return
-                self.visit(child, childSection)
+                if childSection:
+                    self.visit(child, childSection)
             elif tagname in ('speech', 'question', 'answer'):
                 headings = self.construct_heading(child)
                 text = self.get_text(child)
