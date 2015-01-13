@@ -92,10 +92,9 @@ class ImportAkomaNtoso(ImporterBase):
                 'number': docNumber or '',
                 'legislature': legislature or '',
                 'session': session or '',
-                'source_url': source_url,
             }
 
-            section = self.make_section(**kwargs)
+            section = self.make_section(source_url=source_url or '', **kwargs)
             if not section:
                 return
 
@@ -110,7 +109,7 @@ class ImportAkomaNtoso(ImporterBase):
         if tag:
             return tag[0]
 
-    def make_section(self, **kwargs):
+    def make_section(self, source_url='', **kwargs):
         # If the importer has no opinion on clobbering, just import the section,
         # potentially creating a duplicate section.
         if self.clobber:
@@ -138,7 +137,7 @@ class ImportAkomaNtoso(ImporterBase):
                     return None
             else:
                 logger.info('Importing %s' % kwargs.get('heading'))
-        section = self.make(Section, **kwargs)
+        section = self.make(Section, source_url=source_url, **kwargs)
         self.imported_section_ids.add(section.id)
         return section
 
