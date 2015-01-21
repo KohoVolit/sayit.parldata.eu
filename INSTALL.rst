@@ -47,7 +47,7 @@ Installation
 
         $ virtualenv /home/projects/.virtualenvs/sayit --no-site-packages
         $ source /home/projects/.virtualenvs/sayit/bin/activate
-        $ sudo git clone https://github.com/mysociety/sayit_parldata_eu.git sayit
+        $ sudo git clone https://github.com/KohoVolit/sayit.parldata.eu.git sayit
         $ cd /home/projects/sayit
         $ sudo pip install -r requirements.txt
         $ sudo pip install -e .[develop]

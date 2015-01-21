@@ -1,5 +1,5 @@
 """
-WSGI config for sayit_parldata_eu project.
+WSGI application for sayit_parldata_eu project.
 
 This module contains the WSGI application used by Django's development server
 and any production WSGI deployments. It should expose a module-level variable
