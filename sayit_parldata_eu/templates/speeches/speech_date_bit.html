@@ -1,0 +1,5 @@
+{{ speech.start_time|default:"" }}
+{% if speech.end_time %}
+{% if speech.start_time %} &ndash; {% endif %}
+  {{ speech.end_time|default:"" }}
+{% endif %}

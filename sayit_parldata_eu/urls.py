@@ -7,8 +7,10 @@ from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # Admin section
-from django.contrib import admin
-admin.autodiscover()
+## from django.contrib import admin
+## admin.autodiscover()
+
+from .views import RecentView
 
 urlpatterns = staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -29,11 +31,12 @@ if 'test' in sys.argv:
 
 urlpatterns += patterns(
     '',
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
+##    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+##    (r'^admin/', include(admin.site.urls)),
 
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
+##    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
+##    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
 
+    url(r'^speeches$', RecentView.as_view(), name='recent-view'),
     url(r'^', include('speeches.urls', app_name='speeches', namespace='speeches')),
 )

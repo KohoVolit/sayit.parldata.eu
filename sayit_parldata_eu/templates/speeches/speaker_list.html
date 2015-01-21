@@ -1,0 +1,57 @@
+{% extends 'speeches/base.html' %}
+{% load url from future %}
+{% load i18n %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}{% trans "All Speakers" %}{% endblock %}
+
+{% block content %}
+
+  {% if speaker_list or request.is_user_instance %}
+    <div class="page-header">
+      {% if request.is_user_instance %}
+        <a href="{% url "speeches:speaker-add" %}" class="button small right">{% trans "Add a new speaker" %}</a>
+        <a href="{% url "speeches:import-popolo" %}" class="button secondary small right">{% trans "Import speakers" %}</a>
+      {% endif %}
+      {% if speaker_list %}
+        <h1>{% trans "All Speakers" %}</h1>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if speaker_list %}
+
+    <ul class="speaker-list">
+      {% for speaker in speaker_list %}
+        <li>
+            <a href="{{ speaker.get_absolute_url }}">
+                <div class="speaker-card">
+
+                    <img src="{% if speaker.image_cache %}{{ speaker.image_cache|thumbnail_url:'speaker-thumb' }}{% elif speaker.image %}{{ speaker.image }}{% else %}{% static "speeches/i/a.png" %}{% endif %}"
+                         style="border-color: #{{ speaker.colour }}; background-color: #{{ speaker.colour }};" alt="" class="speaker-card__portrait speaker-portrait round-image speaker-portrait--small">
+                    <span class="speaker-card__name">{% if speaker.sort_name %}{{ speaker.sort_name }}{% else %}{{ speaker }}{% endif %}</span>
+
+                </div>
+            </a>
+        </li>
+      {% endfor %}
+    </ul>
+
+  {% else %}
+
+    <div class="nothing-here-yet-message">
+      {% block nothing-here-yet %}
+        <h1>{% trans 'You haven&rsquo;t added any speeches or statements yet' %}</h1>
+        <p class="lead">{% trans 'Once you have, this page will contain a list of all the different people who made each statement in this SayIt site.' %}</p>
+        <p>
+          <a href="{% url "speeches:speaker-add" %}" class="button">{% trans 'Add your first speaker' %}</a>
+          <a href="{% url "speeches:import-popolo" %}" class="button">{% trans "Import speakers" %}</a>
+          <a href="{% url "speeches:speech-add" %}" class="button secondary">{% trans 'Add your first statement' %}</a>
+        </p>
+      {% endblock %}
+    </div>
+
+  {% endif %}
+
+{% endblock %}

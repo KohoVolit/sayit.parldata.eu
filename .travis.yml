@@ -33,7 +33,7 @@ install:
   - CFLAGS="-O0" pip install -e .[test]
 
 before_script:
-  - psql -c 'create database "sayit-example-project";' -U postgres
+  - psql -c 'create database "sayit-parldata-eu";' -U postgres
   - ./manage.py syncdb --noinput
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start

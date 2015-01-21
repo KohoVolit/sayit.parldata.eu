@@ -1,12 +1,18 @@
-# Django settings for example_project project.
+# Django settings for sayit_parldata_eu project.
 
 from __future__ import absolute_import
 
 import os
 import sys
+import yaml
 from django.conf import global_settings
 
 from .paths import *  # noqa
+
+# Load private settings not included in the public repository
+config_file = os.path.join(PROJECT_ROOT, 'conf', 'private.yml')
+with open(config_file) as f:
+    config = yaml.load(f)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -17,7 +23,7 @@ except:
     DEBUG_TOOLBAR = False
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Jaro Semančík', 'jaroslav_semancik@yahoo.com'),
 )
 
 MANAGERS = ADMINS
@@ -25,29 +31,27 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sayit-example-project',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': '',  # is set by the subdomain settings
+        'USER': config.get('SAYIT_DB_USER'),
+        'PASSWORD': config.get('SAYIT_DB_PASS'),
+        'HOST': config.get('SAYIT_DB_HOST'),
+        'PORT': config.get('SAYIT_DB_PORT'),
     }
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.sayit.parldata.eu']
 
-SECRET_KEY = 'secret'
+SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'Europe/London'
+TIME_ZONE = 'UTC'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-gb'
-
-SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -62,7 +66,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PARENT_DIR, 'uploads')
+MEDIA_ROOT = '/var/www/sayit.parldata.eu/uploads'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -70,7 +74,7 @@ MEDIA_ROOT = os.path.join(PARENT_DIR, 'uploads')
 MEDIA_URL = '/media/'
 
 # All uploaded files world-readable
-FILE_UPLOAD_PERMISSIONS = 420  # 644 in octal, 'rw-r--r--'
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 # List of callables that know how to import templates from various sources.
 loaders = (
@@ -85,27 +89,29 @@ TEMPLATE_LOADERS = loaders
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.gzip.GZipMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.http.ConditionalGetMiddleware',
+##    'django.contrib.sessions.middleware.SessionMiddleware',
+    # Use only LANGUAGE_CODE setting instead of language negotiation
+    # 'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+##    'django.contrib.auth.middleware.AuthenticationMiddleware',
+##    'django.contrib.messages.middleware.MessageMiddleware',
     'speeches.middleware.InstanceMiddleware',
     # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 if DEBUG_TOOLBAR:
     MIDDLEWARE_CLASSES.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
-INTERNAL_IPS = ('127.0.0.1',)
+INTERNAL_IPS = ('127.0.0.1', )
 
-ROOT_URLCONF = 'example_project.urls'
+ROOT_URLCONF = 'sayit_parldata_eu.urls'
 
 LOGIN_REDIRECT_URL = '/'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'example_project.wsgi.application'
+WSGI_APPLICATION = 'sayit_parldata_eu.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -119,27 +125,20 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ("dj
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
+##    'django.contrib.sessions',
+##    'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'django.contrib.admin',
-    'django.contrib.admindocs',
+##    'django.contrib.admin',
+##    'django.contrib.admindocs',
     'haystack',
     'django_select2',
     'django_bleach',
+    'easy_thumbnails',
     'popolo',
     'instances',
     'speeches',
-    'easy_thumbnails',
 ]
-
-try:
-    import tastypie  # noqa
-    INSTALLED_APPS.append('tastypie')
-except ImportError:
-    pass
 
 try:
     import nose  # noqa
@@ -221,7 +220,7 @@ AUTO_RENDER_SELECT2_STATICS = False
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PARENT_DIR, 'collected_static')
+STATIC_ROOT = '/var/www/sayit.parldata.eu/collected_static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -232,6 +231,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_DIR, "static"),
 )
 
 if 'test' not in sys.argv:
@@ -272,9 +272,4 @@ HAYSTACK_CONNECTIONS = {
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
-# Allow local changes of settings
-try:
-    with open(SETTINGS_DIR + '/local.py') as f:
-        exec(compile(f.read(), 'local.py', 'exec'))
-except IOError:
-    pass
+GOOGLE_ANALYTICS_ACCOUNT = config.get('GOOGLE_ANALYTICS_ACCOUNT')

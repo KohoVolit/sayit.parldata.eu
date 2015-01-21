@@ -1,0 +1,113 @@
+{% extends 'speeches/base_player.html' %}
+{% load staticfiles %}
+{% load pagination_tags %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans "Speeches" %}{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'speeches/js/masonry.pkgd.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  {% if term_list or speech_list %}
+
+    <div class="page-header page-header--speeches">
+      {% if request.is_user_instance %}
+        <a href="{% url "speeches:speech-add" %}" class="button small right">{% trans "Add a new speech" %}</a>
+        <a href="{% url "speeches:section-add" %}" class="button secondary small right">{% trans "Add a section" %}</a>
+      {% endif %}
+        <h1>{% trans "Speeches" %}</h1>
+    </div>
+
+    <div class="page-content__row">
+        <div class="primary-content__unit">
+          {% if term_list %}
+            <ul class="section-list">
+              {% for term in term_list %}
+                <li class="speech speech--section-signpost speech--with-portrait">
+                    <div class="speaker-portrait-wrapper">
+                        <span class="section-dot"></span>
+                    </div>
+                    <div class="speech-wrapper">
+                        <span class="section-title"><a href="{% url 'speeches:section-view' term.get_path %}">{{ term.title }}</a></span>
+                    </div>
+                  {% if forloop.first %}
+                    <ul class="section-list">
+                      {% for session in session_list %}
+                        <li class="speech--section-signpost speech--with-portrait">
+                            <div class="speaker-portrait-wrapper">
+                                <span class="section-dot"></span>
+                            </div>
+                            <div class="speech-wrapper">
+                                <span class="section-title"><a href="{% url 'speeches:section-view' session.get_path %}">{{ session.title }}</a></span>
+                            </div>
+                          {% if forloop.first %}
+                            <ul class="section-list">
+                              {% for sitting in sitting_list %}
+                                <li class="speech--section-signpost speech--with-portrait">
+                                    <div class="speaker-portrait-wrapper">
+                                        <span class="section-dot"></span>
+                                    </div>
+                                    <div class="speech-wrapper">
+                                        <span class="section-title"><a href="{% url 'speeches:section-view' sitting.get_path %}">{{ sitting.title }}</a></span>
+                                    </div>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                        <li class="speech--section-signpost speech--with-portrait">
+                            <div class="speaker-portrait-wrapper">
+                                <span class="section-dot"></span>
+                            </div>
+                            <div class="speech-wrapper">
+                                <span class="section-title"><a href="{% url "speeches:section-view" term.get_path %}">{% trans "All sessions..." %}</a></span>
+                            </div>
+                        </li>
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if speech_list %}
+             <div class="section-page__speeches-collection">
+              {% if section_list %}
+                <h2>{% trans 'Speeches not in a section' %}</h2>
+              {% endif %}
+                <ul class="unstyled js-masonry" data-masonry-options='{"columnWidth":".speech","itemSelector":".speech","gutter":".gutter-sizer"}'>
+                    <li class="gutter-sizer"></li>
+                  {% for speech in speech_list %}
+                    {% include "speeches/speech.html" with speech=speech nosection="1" standalone="1" truncate="1" %}
+                  {% endfor %}
+                </ul>
+
+                {% paginate %}
+
+            </div>
+          {% endif %}
+
+        </div>
+    </div>
+  {% else %}
+
+    <div class="nothing-here-yet-message">
+      {% if request.is_user_instance %}
+        <h1>{% trans 'You haven&rsquo;t added any speeches or statements yet' %}</h1>
+        <p class="lead">{% trans 'Once you have, you&rsquo;ll be able to browse speeches and organise them into sections here.' %}</p>
+        <p><a href="{% url "speeches:speech-add" %}" class="button">{% trans 'Add your first statement' %}</a></p>
+      {% else %}
+        <h1>{% trans 'This is a brand new SayIt site.' %}</h1>
+        <p class="lead">{% trans 'Its creator hasn&rsquo;t yet added any speeches or statements for you to see.' %}</p>
+        <p><a href="http://sayit.parldata.org" class="button">{% trans 'Learn more about SayIt' %}</a></p>
+      {% endif %}
+    </div>
+
+  {% endif %}
+
+{% endblock %}

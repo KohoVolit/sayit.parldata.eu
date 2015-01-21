@@ -3,7 +3,8 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sayit_parldata_eu.settings")
+    _, parl = os.path.dirname(__file__).rsplit('/', 1)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "subdomains.%s.settings" % parl)
 
     from django.core.management import execute_from_command_line
 

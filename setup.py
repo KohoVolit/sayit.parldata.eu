@@ -32,7 +32,7 @@ setup(
     author='mySociety',
     author_email='sayit@mysociety.org',
     url='https://github.com/mysociety/sayit',
-    packages=find_packages(exclude=('example_project', 'example_project.*')),
+    packages=find_packages(exclude=('sayit_parldata_eu', 'sayit_parldata_eu.*')),
     include_package_data=True,
     install_requires=[
         'psycopg2 >= 2.5.1, < 2.6',
