@@ -361,7 +361,9 @@ class Section(AuditedModel, InstanceMixin):
                         heading=section.heading,
                         subheading=section.subheading,
                         parent=section.parent,
+                        id = section.id
                     )
+                    section_copy.speech_min = node.speech_min
                     section_copy._childs = []
                     parents[-1]._childs.append(section_copy)
                     parents.append(section_copy)
@@ -445,10 +447,11 @@ class Section(AuditedModel, InstanceMixin):
         speech_list_with_key = [
             (
                 (
+                    # fields temporarily swapped (until issue #320 is implemented) to preserve import order
+                    s.id,
                     datetime.datetime.combine(
                         s.start_date or max_date, s.start_time or max_time
-                    ),
-                    s.id
+                    )
                 ),
                 s
             ) for s in self._speeches_by_section.get(section.id, [])
