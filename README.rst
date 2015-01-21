@@ -40,35 +40,38 @@ codebase and the same Django project with common settings.
 
 The following steps are needed to add a new parliament:
 
-#. Create a new database with collation settings corresponding to language
-of the parliament. Example:
+#.  Create a new database with collation settings corresponding to language
+    of the parliament. Example:
 
     .. code-block:: SQL
+
         CREATE DATABASE sayit_sk_nrsr WITH LC_CTYPE 'sk_SK.UTF-8' LC_COLLATE 'sk_SK.UTF-8' TEMPLATE template0 OWNER sayit;
 
-#. Copy one of the subdirectories in ``/subdomains`` directory under a
-new name and adjust content of the ``settings.py`` file within. Follow
-the naming conventions there. The directory name can contain only letters
-and underscore because it represents a python module.
+#.  Copy one of the subdirectories in ``/subdomains`` directory under a
+    new name and adjust content of the ``settings.py`` file within.
+    Follow the naming conventions there. The directory name can contain
+    only letters and underscore because it represents a python module.
 
-#. Create database tables:
+#.  Create database tables:
 
     .. code-block:: console
+
         $ source /home/projects/.virtualenvs/sayit/bin/activate
         (sayit)$ subdomains/sk_nrsr/manage.py syncdb
         (sayit)$ subdomains/sk_nrsr/manage.py migrate
         (sayit)$ deactivate
 
-#. Modify ``/etc/apache2/sites-available/sayit.parldata.eu.conf``, copy
-one of the ``VirtualHost`` blocks and edit the copy to correspond with
-the new parliament. Then
+#.  Modify ``/etc/apache2/sites-available/sayit.parldata.eu.conf``, copy
+    one of the ``VirtualHost`` blocks and edit the copy to correspond
+    with the new parliament. Then
 
     .. code-block:: console
+
         $ sudo service apache2 reload
 
-#. Create a new Google Analytics property within the existing GA account
-and set the two-digit code of the property in the ``settings.py`` file
-above.
+#.  Create a new Google Analytics property within the existing GA account
+    and set the two-digit code of the property in the ``settings.py``
+    file above.
 
 
 Importing of data
@@ -80,6 +83,7 @@ of the particular subdomain and special Django commands. The script must
 be executed in virtual environment of the installation.
 
 .. code-block:: console
+
     $ source /home/projects/.virtualenvs/sayit/bin/activate
 
 .. _`AkomaNtoso format (XML)`: http://sayit.mysociety.org/about/developers
@@ -92,17 +96,20 @@ Examples
 To import speakers from a given file to Slovak parliament subdomain use:
 
 .. code-block:: console
+
     (sayit)$ /home/projects/sayit/subdomains/sk_nrsr/manage.py sayit_load_speakers /home/projects/export-to-sayit/sk/nrsr/people.json
 
 To import debates from all files in a given directory to Slovak parliament
 subdomain use:
 
 .. code-block:: console
+
     (sayit)$ /home/projects/sayit/subdomains/sk_nrsr/manage.py load_akomantoso --dir /home/projects/export-to-sayit/sk --instance default --commit --merge-existing
 
 To delete all data from the Slovak parliament subdomain use:
 
 .. code-block:: console
+
     (sayit)$ subdomains/sk_nrsr/manage.py flush
 
 Schedule those scripts to be executed by Cron if regular updates are needed.
