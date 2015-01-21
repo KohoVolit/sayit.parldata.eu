@@ -20,7 +20,11 @@ Installation
 
         $ sudo update-rc.d elasticsearch defaults 95 10
 
-    and restart system.
+    and restart system:
+
+    .. code-block:: console
+
+        $ sudo reboot
 
 #.  Install PostgreSQL_:
 
