@@ -1,0 +1,112 @@
+{% extends 'speeches/base_player.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block extra_headers %}
+{% with next=section.get_next_node previous=section.get_previous_node %}
+  {% if previous %}
+    <link rel="prev" href="{% url "speeches:section-view" previous.get_path %}" />
+  {% endif %}
+  {% if next %}
+    <link rel="next" href="{% url "speeches:section-view" next.get_path %}" />
+  {% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block og_description %}{% if section.description %}{{ section.description|striptags }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block content %}
+
+<div class="page-header page-header--speech">
+
+  {% if request.is_user_instance %}
+    <a href="{% url 'speeches:speech-add' %}?section={{ section.id }}" class="button small right">{% trans "Add speech" %}</a>
+    <a href="{% url 'speeches:section-add' %}?section={{ section.id }}" class="button secondary small right">{% trans "Add subsection" %}</a>
+    <a href="{% url 'speeches:section-edit' pk=section.id %}" class="button secondary small right">{% trans "Edit section" %}</a>
+  {% endif %}
+
+    {% include "speeches/_breadcrumbs.html" %}
+
+    <h1>{{ section.title }}</h1>
+
+    {{ section.description }}
+
+</div>
+
+{% for node, structure in section_tree %}
+
+  {% if forloop.first %}
+    <div class="page-content__row">
+        <div class="primary-content__unit">
+  {% endif %}
+
+          {% if structure.new_level %}<ul class="section-list">{% else %}</li>{% endif %}
+
+          {% if structure.speech %}
+            <li id="s{{ node.id }}" class="speech {% if node.speaker %}speech--with-portrait{% endif %} speech--{{ speech.type }} speech--border"{% if node.speaker.colour %} style="border-left-color: #{{ node.speaker.colour }};"{% endif %}>
+            {% include "speeches/speech.html" with speech=node nosection="1" section=section noli=1 %}
+          {% else %}
+            <li class="speech speech--section-signpost speech--with-portrait">
+              <div class="speaker-portrait-wrapper">
+                <span class="section-dot"></span>
+              </div>
+              <div class="speech-wrapper">
+                <span class="section-title"><a href="{% url 'speeches:section-view' node.get_path %}">{{ node.title }}</a></span>
+                {% if node.is_leaf_node %}({{ node.speech_count }}){% endif %}
+              </div>
+          {% endif %}
+
+          {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+
+  {% if forloop.last %}
+
+          {% with next=section.get_next_node previous=section.get_previous_node %}
+            {% if previous or next %}
+              <div class="section-navigation speech-list-navigation">
+                {% if previous %}
+                  <a href="{% url "speeches:section-view" previous.get_path %}" class="button speech-navigation__button">&laquo; {{ previous.title }}</a>
+                {% endif %}
+                {% if next %}
+                  <a href="{% url "speeches:section-view" next.get_path %}" class="button speech-navigation__button">{{ next.title }} &raquo;</a>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endwith %}
+
+        </div><!-- close primary-content__unit -->
+
+        <div class="sidebar__unit section-detail-sidebar">
+            {% with next=section.get_next_node previous=section.get_previous_node %}
+              {% if previous or next %}
+                <div class="section-navigation">
+                  {% if previous %}
+                    <a href="{% url "speeches:section-view" previous.get_path %}" class="button speech-navigation__button">&laquo; {{ previous.title }}</a>
+                  {% endif %}
+                  {% if next %}
+                    <a href="{% url "speeches:section-view" next.get_path %}" class="button speech-navigation__button">{{ next.title }} &raquo;</a>
+                  {% endif %}
+                </div>
+                <div class="ui-instructions cleared">
+                  <h2>{% trans 'Keyboard shortcuts' %}</h2>
+                  <p><span class="key-descriptor">j</span> {% trans 'previous section' %}
+                  <span class="key-descriptor">k</span> {% trans 'next section' %}</p>
+                </div>
+              {% endif %}
+            {% endwith %}
+
+        </div><!-- close sidebar__unit -->
+
+    </div><!-- close page-content_row -->
+
+  {% endif %}
+
+{% empty %}
+
+    <div class="nothing-here-yet-message">
+        <h1>{% trans 'This section is empty' %}</h1>
+        <p><a href="{% url "speeches:speech-add" %}?section={{ section.id }}" class="button">{% trans "Add a new speech here" %}</a></p>
+    </div>
+
+{% endfor %}
+
+{% endblock %}

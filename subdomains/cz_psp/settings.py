@@ -1,9 +1,18 @@
 # Django settings for psp.cz subdomain
 
+import os
+
 from sayit_parldata_eu.settings import *  # noqa
 
-DATABASES['default']['NAME'] = 'sayit_cz_psp'
+# manual settings
 LANGUAGE_CODE = 'cz'
-MEDIA_ROOT += '/cz/psp'
-WSGI_APPLICATION = 'subdomains.cz_psp.wsgi.application'
 GOOGLE_ANALYTICS_ACCOUNT += '-??'
+
+# automatically derived settings
+_, parl = os.path.dirname(__file__).rsplit('/', 1)
+country_code, parliament_code = parl.split('_', 1)
+parliament_code = parliament_code.replace('_', '-')
+
+DATABASES['default']['NAME'] = 'sayit_' + parl
+MEDIA_ROOT += '/%s/%s' % (country_code, parliament_code)
+WSGI_APPLICATION = 'subdomains.%s.wsgi.application' % parl

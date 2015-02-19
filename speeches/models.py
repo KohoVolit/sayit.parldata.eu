@@ -447,11 +447,10 @@ class Section(AuditedModel, InstanceMixin):
         speech_list_with_key = [
             (
                 (
-                    # fields temporarily swapped (until issue #320 is implemented) to preserve import order
-                    s.id,
                     datetime.datetime.combine(
                         s.start_date or max_date, s.start_time or max_time
-                    )
+                    ),
+                    s.id
                 ),
                 s
             ) for s in self._speeches_by_section.get(section.id, [])

@@ -1,9 +1,18 @@
 # Django settings for nrsr.sk subdomain
 
+import os
+
 from sayit_parldata_eu.settings import *  # noqa
 
-DATABASES['default']['NAME'] = 'sayit_sk_nrsr'
+# manual settings
 LANGUAGE_CODE = 'sk'
-MEDIA_ROOT += '/sk/nrsr'
-WSGI_APPLICATION = 'subdomains.sk_nrsr.wsgi.application'
 GOOGLE_ANALYTICS_ACCOUNT += '-??'
+
+# automatically derived settings
+_, parl = os.path.dirname(__file__).rsplit('/', 1)
+country_code, parliament_code = parl.split('_', 1)
+parliament_code = parliament_code.replace('_', '-')
+
+DATABASES['default']['NAME'] = 'sayit_' + parl
+MEDIA_ROOT += '/%s/%s' % (country_code, parliament_code)
+WSGI_APPLICATION = 'subdomains.%s.wsgi.application' % parl

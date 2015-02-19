@@ -138,6 +138,7 @@ INSTALLED_APPS = [
     'popolo',
     'instances',
     'speeches',
+    'sayit_parldata_eu',
 ]
 
 try:

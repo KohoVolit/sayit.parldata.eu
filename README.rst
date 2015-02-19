@@ -32,7 +32,7 @@ language-dependent sorting), timezone or fulltext search configuration.
 
 Because we need to set those settings individually for each parliament,
 the multi-instance functionality of SayIt cannot be used and we must
-implemented it differently.
+implement it differently.
 
 A separate WSGI application runs for each parliament initialized with
 parliament-specific settings. All WSGI applications share the same
@@ -40,17 +40,25 @@ codebase and the same Django project with common settings.
 
 The following steps are needed to add a new parliament:
 
-#.  Create a new database with collation settings corresponding to language
-    of the parliament. Example:
+#.  Create a new database ``sayit_<country_code>_<parliament_code>``
+    with collation settings corresponding to primary language of the
+    parliament. Example:
 
     .. code-block:: SQL
 
         CREATE DATABASE sayit_sk_nrsr WITH LC_CTYPE 'sk_SK.UTF-8' LC_COLLATE 'sk_SK.UTF-8' TEMPLATE template0 OWNER sayit;
 
+    When the required locale is missing in your system, create it first
+    and restart database server:
+
+    .. code-block:: console
+
+        $ sudo locale-gen xx_YY.UTF-8
+        $ sudo service postgresql restart
+
 #.  Copy one of the subdirectories in ``/subdomains`` directory under a
-    new name and adjust content of the ``settings.py`` file within.
-    Follow the naming conventions there. The directory name can contain
-    only letters and underscore because it represents a python module.
+    new name <country_code>_<parliament_code> and adjust content of the
+    ``settings.py`` file within.
 
 #.  Create database tables:
 
@@ -77,42 +85,30 @@ The following steps are needed to add a new parliament:
 Importing of data
 =================
 
-Data are imported in `AkomaNtoso format (XML)`_ (debates) and
-`Popolo format (JSON)`_ (speakers) via commandline script ``manage.py``
-of the particular subdomain and special Django commands. The script must
-be executed in virtual environment of the installation.
+Data are imported from ``api.parldata.eu`` via commandline script
+``manage.py`` of the particular subdomain and using the command
+``load_parldata``. The script must be executed in virtual environment
+of the installation.
+
+
+Example
+-------
+
+To initially import data for Slovak parliament subdomain:
 
 .. code-block:: console
 
     $ source /home/projects/.virtualenvs/sayit/bin/activate
+    (sayit)$ /home/projects/sayit/subdomains/sk_nrsr/manage.py load_parldata --initial
 
-.. _`AkomaNtoso format (XML)`: http://sayit.mysociety.org/about/developers
-.. _`Popolo format (JSON)`: http://www.popoloproject.com/specs/person.html
-
-
-Examples
---------
-
-To import speakers from a given file to Slovak parliament subdomain use:
+To load new data since the last import:
 
 .. code-block:: console
 
-    (sayit)$ /home/projects/sayit/subdomains/sk_nrsr/manage.py sayit_load_speakers /home/projects/export-to-sayit/sk/nrsr/people.json
+    (sayit)$ /home/projects/sayit/subdomains/sk_nrsr/manage.py load_parldata
 
-To import debates from all files in a given directory to Slovak parliament
-subdomain use:
-
-.. code-block:: console
-
-    (sayit)$ /home/projects/sayit/subdomains/sk_nrsr/manage.py load_akomantoso --dir /home/projects/export-to-sayit/sk --instance default --commit --merge-existing
-
-To delete all data from the Slovak parliament subdomain use:
-
-.. code-block:: console
-
-    (sayit)$ subdomains/sk_nrsr/manage.py flush
-
-Schedule those scripts to be executed by Cron if regular updates are needed.
+Schedule the incremental update to be executed by Cron if regular
+updates are needed.
 
 
 Some implementation notes
@@ -156,14 +152,14 @@ in Apache config file and its own settings in the ``subdomains``
 directory. The settings for a particular subdomain are loaded as follows:
 
 The ``VirtualHost`` block in Apache config file points to the subdomain's
-WSGI application file ``subdomains/<subdom>/wsgi.py`` which loads
+WSGI application file ``subdomains/<parliament>/wsgi.py`` which loads
 settings file from the same directory. The settings file imports common
 settings from ``sayit_parldata_eu/settings/base.py`` and overrides the
 parliament-specific ones. The common settings file loads private settings
-from ``conf/private.yml`` that is not present in the repository.
+from ``conf/private.yml`` file that is not present in the repository.
 
-The same mechanism of setting loading as in ``wsgi.py`` is used in domain
-specific ``manage.py``.
+The same mechanism of settings loading as in ``wsgi.py`` is used in
+domain specific ``manage.py``.
 
 Domain-independent commands like ``collectstatic`` can be executed by the
 main ``manage.py`` file in the repository root.
