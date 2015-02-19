@@ -1,5 +1,7 @@
 from datetime import datetime
 import locale
+import logging
+import os
 
 from django.core import management
 
@@ -8,7 +10,7 @@ from speeches.models import Section, Speech, Speaker
 
 from . import vpapi
 
-import logging
+LOGS_DIR = '/var/log/sayit/import'
 logger = logging.getLogger(__name__)
 
 class ParldataImporter:
@@ -16,7 +18,18 @@ class ParldataImporter:
         self.api_url = 'http://api.parldata.eu'
         self.parliament = '%s/%s' %(country_code, chamber_code)
         self.initial_import = options.get('initial', False)
-        self.verbosity = int(options.get('verbosity', 0))
+        self.verbosity = int(options.get('verbosity', 1))
+
+        # set-up logging to a file
+        logpath = os.path.join(LOGS_DIR, self.parliament)
+        os.makedirs(logpath, exist_ok=True)
+        logname = datetime.utcnow().strftime('%Y-%m-%d-%H%M%S') + '.log'
+        logname = os.path.abspath(os.path.join(logpath, logname))
+        handler = logging.FileHandler(logname, 'w', 'utf-8')
+        formatter = logging.Formatter('%(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        logger.setLevel(logging.DEBUG)
 
         # set country specific info obtained from VPAPI
         resp = vpapi.get('')
@@ -36,8 +49,7 @@ class ParldataImporter:
 
     def _vlog(self, msg):
         if self.verbosity > 0:
-#            logger.info(msg)
-            print(msg)
+            logger.info(msg)
 
     def load_speakers(self):
         self._vlog('Importing speakers')
