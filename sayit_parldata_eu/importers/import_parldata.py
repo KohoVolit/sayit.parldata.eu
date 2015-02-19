@@ -127,8 +127,6 @@ class ParldataImporter:
         sitting = {}
         speech_objects = []
         for speech in updated_speeches:
-            if speech['position'] > 50: continue  # DEBUG
-
             if speech['event_id'] != sitting.get('id'):
                 # in case of initial import bulk create speeches when a new sitting occurs
                 if self.initial_import:
@@ -158,7 +156,6 @@ class ParldataImporter:
                 # create/update new section corresponding to the session
                 if sitting['parent_id'] != session.get('id'):
                     session = vpapi.get('events/%s' % sitting['parent_id'])
-                    if int(session['identifier']) > 5: break  # DEBUG
                     self._vlog('Importing session `%s`' % session['name'])
                     sd, st = local_date_time(session.get('start_date'))
                     defaults = {
