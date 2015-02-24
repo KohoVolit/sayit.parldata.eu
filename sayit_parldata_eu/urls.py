@@ -5,11 +5,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.decorators.cache import cache_page
 
 # Admin section
 ## from django.contrib import admin
 ## admin.autodiscover()
 
+from speeches.views import SpeakerList, SpeakerView, SectionView
 from .views import RecentView
 
 urlpatterns = staticfiles_urlpatterns()
@@ -38,5 +40,11 @@ urlpatterns += patterns(
 ##    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
 
     url(r'^speeches$', RecentView.as_view(), name='recent-view'),
+
+    # set caching for some views of the speeches app
+    url(r'^speakers$', cache_page(10*365*86400)(SpeakerList.as_view()), name='speaker-list'),
+    url(r'^speaker/(?P<slug>.+)$', SpeakerView.as_view(), name='speaker-view'),
+    url(r'^(?P<full_slug>.+)$', cache_page(10*365*86400)(SectionView.as_view()), name='section-view'),
+
     url(r'^', include('speeches.urls', app_name='speeches', namespace='speeches')),
 )

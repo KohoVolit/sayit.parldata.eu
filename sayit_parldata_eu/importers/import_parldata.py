@@ -2,8 +2,13 @@ from datetime import datetime
 import locale
 import logging
 import os
+import requests
 
 from django.core import management
+from django.http import HttpRequest
+from django.core.cache import cache
+from django.utils.cache import get_cache_key
+from django.conf import settings
 
 from instances.models import Instance
 from speeches.models import Section, Speech, Speaker
@@ -17,6 +22,7 @@ class ParldataImporter:
     def __init__(self, country_code, chamber_code, **options):
         self.api_url = 'http://api.parldata.eu'
         self.parliament = '%s/%s' %(country_code, chamber_code)
+        self.subdomain = '%s.%s' %(chamber_code, country_code)
         self.initial_import = options.get('initial', False)
         self.verbosity = int(options.get('verbosity', 1))
 
@@ -50,6 +56,28 @@ class ParldataImporter:
     def _vlog(self, msg):
         if self.verbosity > 0:
             logger.info(msg)
+
+    def _refresh_cache(self, path):
+        host = self.subdomain + settings.ALLOWED_HOSTS[0]
+
+        # delete cache key correspoding to a typical request
+        request = HttpRequest()
+        request.method = 'GET'
+        request.path = path
+        if settings.USE_I18N:
+            request.LANGUAGE_CODE = settings.LANGUAGE_CODE
+        request.META = {
+            'HTTP_HOST': host,
+            'HTTP_ACCEPT_ENCODING': 'gzip, deflate'
+        }
+        key = get_cache_key(request)
+        cache.delete(key)
+
+        # request the page to recreate the deleted cache key
+        resp = requests.get(
+            'http://%s%s' % (host, path),
+            headers={'accept-encoding': 'gzip, deflate'}
+        )
 
     def load_speakers(self):
         self._vlog('Importing speakers')
@@ -97,6 +125,11 @@ class ParldataImporter:
 
         self._vlog('Imported %i persons (%i created, %i updated)' % (count_c+count_u, count_c, count_u))
 
+        # refresh speakers list in the cache
+        self._vlog('Refreshing speakers list cache')
+        self._refresh_cache('/speakers')
+        self._vlog('Refreshed')
+
     def load_debates(self):
         self._vlog('Importing debates')
 
@@ -126,6 +159,7 @@ class ParldataImporter:
         session = {}
         sitting = {}
         speech_objects = []
+        updated_sections = []
         for speech in updated_speeches:
             if speech['event_id'] != sitting.get('id'):
                 # in case of initial import bulk create speeches when a new sitting occurs
@@ -152,6 +186,7 @@ class ParldataImporter:
                     )
                     sec_count_c += created
                     sec_count_u += not created
+                    updated_sections.append(chamber_object)
 
                 # create/update new section corresponding to the session
                 if sitting['parent_id'] != session.get('id'):
@@ -174,6 +209,7 @@ class ParldataImporter:
                     )
                     sec_count_c += created
                     sec_count_u += not created
+                    updated_sections.append(session_object)
 
                 # create/update new section corresponding to the sitting
                 self._vlog('Importing sitting `%s`' % sitting['name'])
@@ -194,6 +230,7 @@ class ParldataImporter:
                 )
                 sec_count_c += created
                 sec_count_u += not created
+                updated_sections.append(sitting_object)
 
             # create/update the speech
             speaker = speakers.get(speech.get('creator_id'))
@@ -234,6 +271,12 @@ class ParldataImporter:
         self._vlog('Imported %i sections (%i created, %i updated) and %i speeches (%i created, %i updated)' % (
             sec_count_c+sec_count_u, sec_count_c, sec_count_u,
             sp_count_c+sp_count_u, sp_count_c, sp_count_u))
+
+        # refresh updated sections in the cache
+        for section in updated_sections:
+            self._vlog('Refreshing cache for section `%s`' % section.heading)
+            self._refresh_cache(section.get_absolute_url())
+        self._vlog('Refreshed %s updated sections' % len(updated_sections))
 
 
 def local_date_time(dtstr):

@@ -15,4 +15,5 @@ parliament_code = parliament_code.replace('_', '-')
 
 DATABASES['default']['NAME'] = 'sayit_' + parl
 MEDIA_ROOT += '/%s/%s' % (country_code, parliament_code)
+CACHES['default']['LOCATION'] += '/%s/%s' % (country_code, parliament_code)
 WSGI_APPLICATION = 'subdomains.%s.wsgi.application' % parl

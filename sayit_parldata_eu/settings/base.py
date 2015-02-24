@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = [
 if DEBUG_TOOLBAR:
     MIDDLEWARE_CLASSES.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
-INTERNAL_IPS = ('127.0.0.1', )
+INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_URLCONF = 'sayit_parldata_eu.urls'
 
@@ -153,6 +153,17 @@ except ImportError:
 
 if DEBUG_TOOLBAR:
     INSTALLED_APPS.append('debug_toolbar')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/www/sayit.parldata.eu/cache',
+        'TIMEOUT': None,
+        'OPTIONS': {
+            'MAX_ENTRIES': 5000,
+        },
+    }
+}
 
 # Log WARN and above to stderr; ERROR and above by email when DEBUG is False.
 LOGGING = {
