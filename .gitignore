@@ -2,6 +2,7 @@
 .sass-cache
 /speeches/static/speeches/sass/*.css
 /conf/private.yml
+/sayit_parldata_eu/importers/vpapi.py
 .apdisk
 .DS_Store
 chromedriver.log

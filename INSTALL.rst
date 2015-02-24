@@ -49,6 +49,8 @@ Installation
         $ source /home/projects/.virtualenvs/sayit/bin/activate
         $ sudo git clone https://github.com/KohoVolit/sayit.parldata.eu.git sayit
         $ cd /home/projects/sayit
+        $ sudo wget -P sayit_parldata_eu/importers https://raw.githubusercontent.com/KohoVolit/api.parldata.eu/master/client/vpapi.py
+        $ sudo wget -P sayit_parldata_eu/importers https://raw.githubusercontent.com/KohoVolit/api.parldata.eu/master/client/server_cert.pem
         $ sudo pip install -r requirements.txt
         $ sudo pip install -e .[develop]
         $ sudo pip install python-dateutil lxml
