@@ -14,7 +14,7 @@ config_file = os.path.join(PROJECT_ROOT, 'conf', 'private.yml')
 with open(config_file) as f:
     config = yaml.load(f)
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 try:
     import debug_toolbar  # noqa
@@ -154,8 +154,12 @@ except ImportError:
 if DEBUG_TOOLBAR:
     INSTALLED_APPS.append('debug_toolbar')
 
-CACHES = {
-    'default': {
+# Caching
+if DEBUG:
+    cache = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
+    CACHE_MIDDLEWARE_SECONDS = 0
+else:
+    cache = {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': '/var/www/sayit.parldata.eu/cache',
         'TIMEOUT': None,
@@ -163,6 +167,8 @@ CACHES = {
             'MAX_ENTRIES': 5000,
         },
     }
+CACHES = {
+    'default': cache
 }
 
 # Log WARN and above to stderr; ERROR and above by email when DEBUG is False.
