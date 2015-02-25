@@ -66,7 +66,6 @@ The following steps are needed to add a new parliament:
 
         $ source /home/projects/.virtualenvs/sayit/bin/activate
         (sayit)$ subdomains/sk_nrsr/manage.py syncdb
-        (sayit)$ subdomains/sk_nrsr/manage.py migrate
         (sayit)$ deactivate
 
 #.  Modify ``/etc/apache2/sites-available/sayit.parldata.eu.conf``, copy

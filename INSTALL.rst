@@ -47,38 +47,41 @@ Installation
 
         $ virtualenv /home/projects/.virtualenvs/sayit --no-site-packages
         $ source /home/projects/.virtualenvs/sayit/bin/activate
-        $ sudo git clone https://github.com/KohoVolit/sayit.parldata.eu.git sayit
-        $ cd /home/projects/sayit
-        $ sudo wget -P sayit_parldata_eu/importers https://raw.githubusercontent.com/KohoVolit/api.parldata.eu/master/client/vpapi.py
-        $ sudo wget -P sayit_parldata_eu/importers https://raw.githubusercontent.com/KohoVolit/api.parldata.eu/master/client/server_cert.pem
-        $ sudo pip install -r requirements.txt
-        $ sudo pip install -e .[develop]
-        $ sudo pip install python-dateutil lxml
-        $ ./manage.py collectstatic --noinput
-        $ deactivate
+        (sayit)$ sudo git clone https://github.com/KohoVolit/sayit.parldata.eu.git sayit
+        (sayit)$ cd /home/projects/sayit
+        (sayit)$ sudo wget -P sayit_parldata_eu/importers https://raw.githubusercontent.com/KohoVolit/api.parldata.eu/master/client/vpapi.py
+        (sayit)$ sudo wget -P sayit_parldata_eu/importers https://raw.githubusercontent.com/KohoVolit/api.parldata.eu/master/client/server_cert.pem
+        (sayit)$ sudo pip install -r requirements.txt
 
     Create a PostgreSQL user (with a real password instead of the example
     one):
 
     .. code-block:: console
 
-        $ sudo -u postgres psql
-        postgres=# CREATE USER sayit WITH password 'sayit';
+        (sayit)$ sudo -u postgres psql
+        (sayit)postgres=# CREATE USER sayit WITH password 'sayit';
 
     Create a file with private settings and adjust its content:
 
     .. code-block:: console
 
-        $ cp conf/private-example.yml conf/private.yml
+        (sayit)$ cp conf/private-example.yml conf/private.yml
+
+    Collect static files of the project:
+
+    .. code-block:: console
+
+        (sayit)$ sudo mkdir /var/www/sayit.parladata.eu
+        (sayit)$ sudo chown :www-data /var/www/sayit.parldata.eu
+        (sayit)$ sudo chmod g+w /var/www/sayit.parldata.eu
+        (sayit)$ ./manage.py collectstatic --noinput
+        (sayit)$ deactivate
 
 #.  Set-up Apache configuration:
 
     .. code-block:: console
 
-        $ sudo mkdir /var/www/sayit.parldata.eu
-        $ sudo chown :www-data /var/www/sayit.parldata.eu
-        $ sudo chmod g+w /var/www/sayit.parldata.eu
-        $ cp /home/projects/sayit/sayit.parldata.eu-example.conf /etc/apache2/sites-available/sayit.parldata.eu.conf
+        $ sudo cp /home/projects/sayit/conf/sayit.parldata.eu-example.conf /etc/apache2/sites-available/sayit.parldata.eu.conf
         $ sudo mkdir /var/log/apache2/sayit.parldata.eu
         $ sudo a2ensite sayit.parldata.eu
         $ sudo service apache2 reload
