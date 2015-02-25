@@ -87,7 +87,8 @@ Importing of data
 Data are imported from ``api.parldata.eu`` via commandline script
 ``manage.py`` of the particular subdomain and using the command
 ``load_parldata``. The script must be executed in virtual environment
-of the installation.
+of the installation and as the user running the webserver (because of
+Caching_).
 
 
 Example
@@ -98,13 +99,13 @@ To initially import data for Slovak parliament subdomain:
 .. code-block:: console
 
     $ source /home/projects/.virtualenvs/sayit/bin/activate
-    (sayit)$ /home/projects/sayit/subdomains/sk_nrsr/manage.py load_parldata --initial
+    (sayit)$ sudo -u www-data /home/projects/sayit/subdomains/sk_nrsr/manage.py load_parldata --initial
 
 To load new data since the last import:
 
 .. code-block:: console
 
-    (sayit)$ /home/projects/sayit/subdomains/sk_nrsr/manage.py load_parldata
+    (sayit)$ sudo -u www-data /home/projects/sayit/subdomains/sk_nrsr/manage.py load_parldata
 
 Schedule the incremental update to be executed by Cron if regular
 updates are needed.
@@ -162,3 +163,9 @@ domain specific ``manage.py``.
 
 Domain-independent commands like ``collectstatic`` can be executed by the
 main ``manage.py`` file in the repository root.
+
+
+Caching
+-------
+
+TODO

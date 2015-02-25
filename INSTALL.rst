@@ -67,13 +67,19 @@ Installation
 
         (sayit)$ cp conf/private-example.yml conf/private.yml
 
+    Create directory for logs:
+
+    .. code-block:: console
+
+        $ sudo mkdir -m 775 /var/log/sayit
+        $ sudo chown visegrad:www-data /var/log/sayit
+
     Collect static files of the project:
 
     .. code-block:: console
 
-        (sayit)$ sudo mkdir /var/www/sayit.parladata.eu
-        (sayit)$ sudo chown :www-data /var/www/sayit.parldata.eu
-        (sayit)$ sudo chmod g+w /var/www/sayit.parldata.eu
+        (sayit)$ sudo mkdir -m 775 /var/www/sayit.parladata.eu
+        (sayit)$ sudo chown visegrad:www-data /var/www/sayit.parldata.eu
         (sayit)$ ./manage.py collectstatic --noinput
         (sayit)$ deactivate
 
