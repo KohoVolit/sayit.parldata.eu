@@ -168,4 +168,16 @@ main ``manage.py`` file in the repository root.
 Caching
 -------
 
-TODO
+Rendering of templates for long debates may take a long time. It takes
+10-20s for sittings with hundreds of speeches. Because of that, caching
+is need.
+
+Server-side caching on the filesystem is used for all section views and
+the speakers list. Pages are rendered into cache in advance by the
+import script for all imported or updated sections. Hence a user never
+waits for a template to render, the page is always served from cache.
+
+Django's FileBasedCache creates files accessible only by the user who
+created them. Because the cache is written by the import script and read
+by the webserver, both have to run as the same user. Therefore the
+import script must be executed as the webserver user, eg. *www-data*.
