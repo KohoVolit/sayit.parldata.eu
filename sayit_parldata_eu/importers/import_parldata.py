@@ -246,10 +246,15 @@ class ParldataImporter:
                 'start_time': st,
                 'source_url': '%s/%s/speeches/%s' % (self.api_url, self.parliament, speech['id']),
             }
-            if speaker and speech.get('attribution_text'):
-                defaults['speaker_display'] = '%s, %s' % (speaker.name, speech['attribution_text'])
-            elif speech.get('attribution_text'):
-                defaults['speaker_display'] = speech['attribution_text']
+            if speech.get('attribution_text'):
+                # there are false attribution texts in Slovak data
+                if self.parliament == 'sk/nrsr' and len(speech['attribution_text']) > 100:
+                    pass
+                else:
+                    if speaker:
+                        defaults['speaker_display'] = '%s, %s' % (speaker.name, speech['attribution_text'])
+                    else:
+                        defaults['speaker_display'] = speech['attribution_text']
 
             if self.initial_import:
                 speech_object = Speech(instance=self.instance, **defaults)
