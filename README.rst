@@ -56,6 +56,14 @@ The following steps are needed to add a new parliament:
         $ sudo locale-gen xx_YY.UTF-8
         $ sudo service postgresql restart
 
+    Connect to the new database and create additional indexes to speed-up
+    data imports:
+
+    .. code-block:: SQL
+
+        CREATE INDEX speeches_section_source_url on speeches_section(source_url);
+        CREATE INDEX speeches_speech_source_url on speeches_speech(source_url);
+
 #.  Copy one of the subdirectories in ``/subdomains`` directory under a
     new name <country_code>_<parliament_code> and adjust content of the
     ``settings.py`` file within.
