@@ -3,12 +3,3 @@
 /speeches/static/speeches/sass/*.css
 /conf/private.yml
 /sayit_parldata_eu/importers/vpapi.py
-.apdisk
-.DS_Store
-chromedriver.log
-*~
-.noseids
-*.swp
-*.swo
-django_sayit.egg-info
-dist
