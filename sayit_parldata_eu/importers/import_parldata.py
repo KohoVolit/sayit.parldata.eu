@@ -2,6 +2,7 @@ from datetime import datetime
 import locale
 import logging
 import os
+import shutil
 import requests
 
 from django.core import management
@@ -50,6 +51,8 @@ class ParldataImporter:
         if self.initial_import:
             self._vlog('Deleting all existing data')
             management.call_command('flush', verbosity=0, interactive=False)
+            shutil.rmtree(settings.MEDIA_ROOT)
+            shutil.rmtree(settings.CACHES['default']['LOCATION'])
 
         self.instance, _created = Instance.objects.get_or_create(label='default')
 
