@@ -234,7 +234,9 @@ class ParldataImporter:
 
             # create/update the speech
             speaker = speakers.get(speech.get('creator_id'))
-            sd, st = local_date_time(speech.get('date'))
+            start = speech.get('date') or \
+                sitting.get('start_date') or session.get('start_date') or chamber.get('founding_date')
+            sd, st = local_date_time(start)
             defaults = {
                 'audio': speech.get('audio', ''),
                 'text': speech.get('text', ''),
