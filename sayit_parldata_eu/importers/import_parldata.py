@@ -101,6 +101,9 @@ class ParldataImporter:
         count_c = 0
         count_u = 0
         for person in updated_people:
+            # FIXME: fix for currently flawed Kosovo and Albanian data
+            if not person.get('name'): continue
+
             defaults = {
                 'name': person['name'][:128],
                 'family_name': person.get('family_name') or '',
@@ -118,6 +121,11 @@ class ParldataImporter:
                 'biography': person.get('biography') or '',
                 'image': urllib.parse.quote(person.get('image'), safe='/:'),
             }
+
+            # FIXME: fix for currently flawed Serbian data
+            if len(defaults['image']) >  200:
+                defaults['image'] = None
+
             _record, created = update_object(
                 Speaker.objects, person,
                 identifiers__identifier=person['id'],
