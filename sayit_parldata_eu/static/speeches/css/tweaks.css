@@ -7,11 +7,11 @@
 .speech--section-signpost .speech--section-signpost .speech--section-signpost {
   margin-bottom: 0;
 }
-.section-list .speech p {
+.section-list .speech {
   font-style: italic;
   color: #888;
 }
-.section-list .speech.speech--with-portrait p {
+.section-list .speech.speech--with-portrait {
   font-style: normal;
   color: #222;
 }
