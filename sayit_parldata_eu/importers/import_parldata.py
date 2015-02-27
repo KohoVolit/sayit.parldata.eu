@@ -4,6 +4,7 @@ import logging
 import os
 import shutil
 import requests
+import urllib.parse
 
 from django.core import management
 from django.http import HttpRequest
@@ -51,8 +52,8 @@ class ParldataImporter:
         if self.initial_import:
             self._vlog('Deleting all existing data')
             management.call_command('flush', verbosity=0, interactive=False)
-            shutil.rmtree(settings.MEDIA_ROOT)
-            shutil.rmtree(settings.CACHES['default']['LOCATION'])
+            shutil.rmtree(settings.MEDIA_ROOT, ignore_errors=True)
+            shutil.rmtree(settings.CACHES['default']['LOCATION'], ignore_errors=True)
 
         self.instance, _created = Instance.objects.get_or_create(label='default')
 
@@ -102,20 +103,20 @@ class ParldataImporter:
         for person in updated_people:
             defaults = {
                 'name': person['name'][:128],
-                'family_name': person.get('family_name', ''),
-                'given_name': person.get('given_name', ''),
-                'additional_name': person.get('additional_name', ''),
-                'honorific_prefix': person.get('honorific_prefix', ''),
-                'honorific_suffix': person.get('honorific_suffix', ''),
-                'patronymic_name': person.get('patronymic_name', ''),
-                'sort_name': person.get('sort_name', ''),
+                'family_name': person.get('family_name') or '',
+                'given_name': person.get('given_name') or '',
+                'additional_name': person.get('additional_name') or '',
+                'honorific_prefix': person.get('honorific_prefix') or '',
+                'honorific_suffix': person.get('honorific_suffix') or '',
+                'patronymic_name': person.get('patronymic_name') or '',
+                'sort_name': person.get('sort_name') or '',
                 'email': person.get('email'),
-                'gender': person.get('gender', ''),
-                'birth_date': person.get('birth_date', ''),
-                'death_date': person.get('death_date', ''),
-                'summary': person.get('summary', ''),
-                'biography': person.get('biography', ''),
-                'image': person.get('image'),
+                'gender': person.get('gender') or '',
+                'birth_date': person.get('birth_date') or '',
+                'death_date': person.get('death_date') or '',
+                'summary': person.get('summary') or '',
+                'biography': person.get('biography') or '',
+                'image': urllib.parse.quote(person.get('image'), safe='/:'),
             }
             _record, created = update_object(
                 Speaker.objects, person,
@@ -158,9 +159,9 @@ class ParldataImporter:
         sec_count_u = 0
         sp_count_c = 0
         sp_count_u = 0
-        chamber = {}
-        session = {}
-        sitting = {}
+        chamber, chamber_object = {}, None
+        session, session_object = {}, None
+        sitting, sitting_object = {}, None
         speech_objects = []
         updated_sections = []
         for speech in updated_speeches:
@@ -175,11 +176,11 @@ class ParldataImporter:
                 # create/update new section corresponding to the chamber
                 if sitting['organization_id'] != chamber.get('id'):
                     chamber = vpapi.get('organizations/%s' % sitting['organization_id'])
-                    self._vlog('Importing chamber `%s`' % chamber['name'])
+                    self._vlog('Importing chamber `%s`' % chamber.get('name'))
                     defaults = {
                         'heading': chamber.get('name'),
                         'start_date': chamber.get('founding_date'),
-                        'legislature': chamber.get('name', ''),
+                        'legislature': chamber.get('name') or '',
                         'source_url': '%s/%s/organizations/%s' % (self.api_url, self.parliament, chamber['id']),
                     }
                     chamber_object, created = Section.objects.update_or_create(
@@ -191,38 +192,42 @@ class ParldataImporter:
                     sec_count_u += not created
                     updated_sections.append(chamber_object)
 
-                # create/update new section corresponding to the session
-                if sitting['parent_id'] != session.get('id'):
-                    session = vpapi.get('events/%s' % sitting['parent_id'])
-                    self._vlog('Importing session `%s`' % session['name'])
-                    sd, st = local_date_time(session.get('start_date'))
-                    defaults = {
-                        'heading': session.get('name'),
-                        'start_date': sd,
-                        'start_time': st,
-                        'legislature': chamber.get('name', ''),
-                        'session': session.get('name', ''),
-                        'parent': chamber_object,
-                        'source_url': '%s/%s/events/%s' % (self.api_url, self.parliament, session['id']),
-                    }
-                    session_object, created = Section.objects.update_or_create(
-                        source_url=defaults['source_url'],
-                        defaults=defaults,
-                        instance=self.instance
-                    )
-                    sec_count_c += created
-                    sec_count_u += not created
-                    updated_sections.append(session_object)
+                # create/update new section corresponding to eventual session
+                if not sitting.get('parent_id'):
+                    session = {}
+                    session_object = chamber_object
+                else:
+                    if sitting['parent_id'] != session.get('id'):
+                        session = vpapi.get('events/%s' % sitting['parent_id'])
+                        self._vlog('Importing session `%s`' % session.get('name'))
+                        sd, st = local_date_time(session.get('start_date'))
+                        defaults = {
+                            'heading': session.get('name'),
+                            'start_date': sd,
+                            'start_time': st,
+                            'legislature': chamber.get('name') or '',
+                            'session': session.get('name') or '',
+                            'parent': chamber_object,
+                            'source_url': '%s/%s/events/%s' % (self.api_url, self.parliament, session['id']),
+                        }
+                        session_object, created = Section.objects.update_or_create(
+                            source_url=defaults['source_url'],
+                            defaults=defaults,
+                            instance=self.instance
+                        )
+                        sec_count_c += created
+                        sec_count_u += not created
+                        updated_sections.append(session_object)
 
                 # create/update new section corresponding to the sitting
-                self._vlog('Importing sitting `%s`' % sitting['name'])
+                self._vlog('Importing sitting `%s`' % sitting.get('name'))
                 sd, st = local_date_time(sitting.get('start_date'))
                 defaults = {
                     'heading': sitting.get('name'),
                     'start_date': sd,
                     'start_time': st,
-                    'legislature': chamber.get('name', ''),
-                    'session': session.get('name', ''),
+                    'legislature': chamber.get('name') or '',
+                    'session': session.get('name') or '',
                     'parent': session_object,
                     'source_url': '%s/%s/events/%s' % (self.api_url, self.parliament, sitting['id']),
                 }
@@ -244,7 +249,7 @@ class ParldataImporter:
                 'audio': speech.get('audio', ''),
                 'text': speech.get('text', ''),
                 'section': sitting_object,
-                'event': '%s, %s, %s' % (chamber['name'], session['name'], sitting['name']),
+                'event': '%s, %s, %s' % (chamber.get('name'), session.get('name'), sitting.get('name')),
                 'speaker': speaker,
                 'type': speech.get('type', 'speech'),
                 'start_date': sd,
@@ -252,10 +257,8 @@ class ParldataImporter:
                 'source_url': '%s/%s/speeches/%s' % (self.api_url, self.parliament, speech['id']),
             }
             if speech.get('attribution_text'):
-                # there are false attribution texts in Slovak data
-                if self.parliament == 'sk/nrsr' and len(speech['attribution_text']) > 100:
-                    pass
-                else:
+                # FIXME: there are false attribution texts in Slovak and Albanian data
+                if len(speech['attribution_text']) < 100:
                     if speaker:
                         defaults['speaker_display'] = '%s, %s' % (speaker.name, speech['attribution_text'])
                     else:
@@ -283,6 +286,7 @@ class ParldataImporter:
             sp_count_c+sp_count_u, sp_count_c, sp_count_u))
 
         # refresh updated sections in the cache
+        self._refresh_cache('/speeches')
         for section in updated_sections:
             self._vlog('Refreshing cache for section `%s`' % section.heading)
             self._refresh_cache(section.get_absolute_url())
