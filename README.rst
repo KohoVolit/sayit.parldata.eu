@@ -34,9 +34,11 @@ Because we need to set those settings individually for each parliament,
 the multi-instance functionality of SayIt cannot be used and we must
 implement it differently.
 
-A separate WSGI application runs for each parliament initialized with
-parliament-specific settings. All WSGI applications share the same
-codebase and the same Django project with common settings.
+The WSGI application extracts the parliament from *WSGIProcessGroup*
+directive in the subdomain's virtual host section of the Apache
+configuration file and it imports parliament-specific settings. Thus
+WSGI processes for all subdomains share the same Django project where
+they add their specific settings on initialization.
 
 The following steps are needed to add a new parliament:
 
@@ -56,16 +58,15 @@ The following steps are needed to add a new parliament:
         $ sudo locale-gen xx_YY.UTF-8
         $ sudo service postgresql restart
 
-#.  Copy one of the subdirectories in ``/subdomains`` directory under a
-    new name <country_code>_<parliament_code> and adjust content of the
-    ``settings.py`` file within.
+#.  Copy one of the files in ``/subdomains`` directory and adjust its
+    content for the new parliament.
 
 #.  Create database tables:
 
     .. code-block:: console
 
         $ source /home/projects/.virtualenvs/sayit/bin/activate
-        (sayit)$ subdomains/sk_nrsr/manage.py syncdb
+        (sayit)$ ./manage.py syncdb --settings subdomains.<your-parliament>
         (sayit)$ deactivate
 
 #.  Connect to the new database and create additional indexes to speed-up
@@ -93,10 +94,10 @@ Importing of data
 =================
 
 Data are imported from ``api.parldata.eu`` via commandline script
-``manage.py`` of the particular subdomain and using the command
-``load_parldata``. The script must be executed in virtual environment
-of the installation and as the user running the webserver (because of
-Caching_).
+``manage.py`` using the command ``load_parldata`` and the subdomain
+specified in ``--settings`` option. The script must be executed in
+virtual environment of the installation and as the user running the
+webserver (because of Caching_).
 
 Quality of debates data at ``api.parldata.eu`` for all parliaments may
 be checked before initial import by a simple script
@@ -112,13 +113,13 @@ To initially import data for Slovak parliament subdomain:
 .. code-block:: console
 
     $ source /home/projects/.virtualenvs/sayit/bin/activate
-    (sayit)$ sudo -u www-data /home/projects/sayit/subdomains/sk_nrsr/manage.py load_parldata --initial
+    (sayit)$ sudo -u www-data /home/projects/sayit/manage.py load_parldata --settings subdomains.sk_nrsr --initial
 
 To load new data since the last import:
 
 .. code-block:: console
 
-    (sayit)$ sudo -u www-data /home/projects/sayit/subdomains/sk_nrsr/manage.py load_parldata
+    (sayit)$ sudo -u www-data /home/projects/sayit/manage.py load_parldata --settings subdomains.sk_nrsr
 
 Schedule the incremental update to be executed by Cron if regular
 updates are needed.
@@ -151,7 +152,8 @@ CSS customization
 `SayIt uses`_ SASS, Compass, and Foundation for its CSS. Minor tweaks for
 this project are placed into a simple CSS file
 ``sayit_parladata_eu/static/css/tweaks.css``. Run
-``manage.py collectstatic`` after any CSS modification.
+``manage.py collectstatic`` and ``manage.py refresh_cache`` after any
+CSS modification.
 
 .. _`SayIt uses`: http://mysociety.github.io/sayit/develop/
 
@@ -164,18 +166,19 @@ the same Django project. Each subdomain has its own ``VirtualHost`` block
 in Apache config file and its own settings in the ``subdomains``
 directory. The settings for a particular subdomain are loaded as follows:
 
-The ``VirtualHost`` block in Apache config file points to the subdomain's
-WSGI application file ``subdomains/<parliament>/wsgi.py`` which loads
-settings file from the same directory. The settings file imports common
-settings from ``sayit_parldata_eu/settings/base.py`` and overrides the
-parliament-specific ones. The common settings file loads private settings
-from ``conf/private.yml`` file that is not present in the repository.
+The WSGI application extracts the parliament from *WSGIProcessGroup*
+directive that is unique in each ``VirtualHost`` block and it imports
+settings for that parliament from ``subdomains/<parliament>.py``. There
+are some parliament-specific settings and then the main file with common
+settings is imported in a way that passes the specific ones. The common
+settings file loads private settings from ``conf/private.yml`` file that
+is not present in the repository.
 
-The same mechanism of settings loading as in ``wsgi.py`` is used in
-domain specific ``manage.py``.
+The same settings loading is used in ``manage.py``, only the module with
+parliament-specific settings is provided by ``--settings`` directive.
 
-Domain-independent commands like ``collectstatic`` can be executed by the
-main ``manage.py`` file in the repository root.
+For domain-independent ``manage.py`` commands like ``collectstatic`` the
+``--settings`` directive is not needed.
 
 
 Caching

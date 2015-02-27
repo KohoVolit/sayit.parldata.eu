@@ -1,13 +1,12 @@
-# Django settings for sayit_parldata_eu project.
-
-from __future__ import absolute_import
-
 import os
 import sys
 import yaml
 from django.conf import global_settings
 
-from .paths import *  # noqa
+# Path to here is something like
+# /home/projects/sayit/sayit_parldata_eu/settings.py
+PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(PROJECT_DIR, '..'))
 
 # Load private settings not included in the public repository
 config_file = os.path.join(PROJECT_ROOT, 'conf', 'private.yml')
@@ -31,13 +30,15 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',  # is set by the subdomain settings
+        'NAME': '',
         'USER': config.get('SAYIT_DB_USER'),
         'PASSWORD': config.get('SAYIT_DB_PASS'),
         'HOST': config.get('SAYIT_DB_HOST'),
         'PORT': config.get('SAYIT_DB_PORT'),
     }
 }
+if 'PARLIAMENT_CODE' in globals():
+    DATABASES['default']['NAME'] = 'sayit_%s_%s' % (COUNTRY_CODE, PARLIAMENT_CODE)
 
 ALLOWED_HOSTS = ['.sayit.parldata.eu']
 
@@ -48,10 +49,6 @@ SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
 TIME_ZONE = 'UTC'
-
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-gb'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -67,6 +64,8 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = '/var/www/sayit.parldata.eu/uploads'
+if 'PARLIAMENT_CODE' in globals():
+    MEDIA_ROOT += '/%s/%s' % (COUNTRY_CODE, PARLIAMENT_CODE)
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -167,6 +166,8 @@ else:
             'MAX_ENTRIES': 5000,
         },
     }
+if 'PARLIAMENT_CODE' in globals():
+    cache['LOCATION'] += '/%s/%s' % (COUNTRY_CODE, PARLIAMENT_CODE)
 CACHES = {
     'default': cache
 }
@@ -220,17 +221,6 @@ PAGINATION_DEFAULT_WINDOW = 2
 
 APPEND_SLASH = False
 
-# South
-# Don't use migrations in testing - makes things faster and avoids
-# errors with difference between sqlite and postgres
-SOUTH_TESTS_MIGRATE = False
-
-SOUTH_MIGRATION_MODULES = {
-    'easy_thumbnails': 'easy_thumbnails.south_migrations',
-    'instances': 'instances.south_migrations',
-    'speeches': 'speeches.south_migrations',
-}
-
 # Select2
 AUTO_RENDER_SELECT2_STATICS = False
 
@@ -264,13 +254,32 @@ STATICFILES_FINDERS = (
 )
 
 # django-bleach configuration
-from .bleach import *  # noqa
+BLEACH_ALLOWED_TAGS = [
+    'a', 'abbr', 'b', 'i', 'u', 'span', 'sub', 'sup', 'br',
+    'p',
+    'ol', 'ul', 'li',
+    'table', 'caption', 'tr', 'th', 'td',
+]
+BLEACH_ALLOWED_ATTRIBUTES = {
+    '*': ['id', 'title'],  # class, style
+    'a': ['href'],
+    'li': ['value'],
+}
 
 # easy-thumbnails configuration
-from .thumbnails import *  # noqa
+# Class attribute so as not to activate and get caught in a circle
+from easy_thumbnails.conf import Settings
+
+_processors = []
+for processor in Settings.THUMBNAIL_PROCESSORS:
+    # Before the default scale_and_crop, insert our face_crop
+    if processor == 'easy_thumbnails.processors.scale_and_crop':
+        _processors.append('speeches.thumbnail_processors.face_crop')
+    _processors.append(processor)
+
+THUMBNAIL_PROCESSORS = tuple(_processors)
 
 # Haystack search settings
-
 SEARCH_INDEX_NAME = DATABASES['default']['NAME']
 if 'test' in sys.argv:
     SEARCH_INDEX_NAME += '_test'
@@ -287,7 +296,7 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': '%s_write' % SEARCH_INDEX_NAME,
     },
 }
-
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
-GOOGLE_ANALYTICS_ACCOUNT = config.get('GOOGLE_ANALYTICS_ACCOUNT')
+if 'GA_PROPERTY_ID' in globals():
+    GOOGLE_ANALYTICS_ACCOUNT = '%s-%s' % (config.get('GOOGLE_ANALYTICS_ACCOUNT'), GA_PROPERTY_ID)

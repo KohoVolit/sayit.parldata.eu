@@ -13,9 +13,11 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
+import mod_wsgi
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sayit_parldata_eu.settings")
+_, parl = mod_wsgi.process_group.split('_', 1)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "subdomains.%s" % parl)
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
