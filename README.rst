@@ -98,6 +98,11 @@ Data are imported from ``api.parldata.eu`` via commandline script
 of the installation and as the user running the webserver (because of
 Caching_).
 
+Quality of debates data at ``api.parldata.eu`` for all parliaments may
+be checked before initial import by a simple script
+``check_debates_data.py`` at ``sayit_parldata_eu/importers``
+subdirectory.
+
 
 Example
 -------
