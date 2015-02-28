@@ -139,6 +139,7 @@ class ParldataImporter:
 
         # refresh speakers list in the cache
         self._vlog('Refreshing speakers list cache')
+        self._refresh_cache('/')
         self._refresh_cache('/speakers')
         self._vlog('Refreshed')
 
@@ -294,6 +295,7 @@ class ParldataImporter:
             sp_count_c+sp_count_u, sp_count_c, sp_count_u))
 
         # refresh updated sections in the cache
+        self._refresh_cache('/')
         self._refresh_cache('/speeches')
         for section in updated_sections:
             self._vlog('Refreshing cache for section `%s`' % section.heading)

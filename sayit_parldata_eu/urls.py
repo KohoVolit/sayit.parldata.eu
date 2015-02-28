@@ -39,7 +39,7 @@ urlpatterns += patterns(
 ##    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
 ##    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
 
-    url(r'^speeches$', RecentView.as_view(), name='recent-view'),
+    url(r'^speeches$', cache_page(10*365*86400)(RecentView.as_view()), name='recent-view'),
 
     # set caching for some views of the speeches app
     url(r'^speakers$', cache_page(10*365*86400)(SpeakerList.as_view()), name='speaker-list'),
