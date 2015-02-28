@@ -5,8 +5,8 @@ from django.conf import global_settings
 
 # Path to here is something like
 # /home/projects/sayit/sayit_parldata_eu/settings.py
-PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
-PROJECT_ROOT = os.path.abspath(os.path.join(PROJECT_DIR, '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+PROJECT_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, 'sayit_parldata_eu'))
 
 # Load private settings not included in the public repository
 config_file = os.path.join(PROJECT_ROOT, 'conf', 'private.yml')
