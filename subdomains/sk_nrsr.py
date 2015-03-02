@@ -2,6 +2,7 @@
 
 COUNTRY_CODE = 'sk'
 PARLIAMENT_CODE = 'nrsr'
+PARLIAMENT_NAME = 'Národná rada Slovenskej republiky'
 LANGUAGE_CODE = 'sk'
 GA_PROPERTY_ID = '??'
 

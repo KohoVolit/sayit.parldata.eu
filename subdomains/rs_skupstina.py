@@ -2,6 +2,7 @@
 
 COUNTRY_CODE = 'rs'
 PARLIAMENT_CODE = 'skupstina'
+PARLIAMENT_NAME = 'Народна скупштина Републике Србије'
 LANGUAGE_CODE = 'sr'
 GA_PROPERTY_ID = '??'
 

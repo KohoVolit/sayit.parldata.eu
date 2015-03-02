@@ -2,6 +2,7 @@
 
 COUNTRY_CODE = 'kv'
 PARLIAMENT_CODE = 'kuvendi'
+PARLIAMENT_NAME = 'Kuvendit të Kosovës'
 LANGUAGE_CODE = 'sq'
 GA_PROPERTY_ID = '??'
 

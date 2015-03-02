@@ -118,8 +118,13 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_DIR, 'templates'),
 )
-
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ("django.core.context_processors.request",)
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    "django.core.context_processors.request",
+    "sayit_parldata_eu.context_processors.exposed_settings",
+)
+SETTINGS_EXPOSED_TO_TEMPLATES = (
+    'PARLIAMENT_NAME',
+)
 
 INSTALLED_APPS = [
     'django.contrib.auth',
