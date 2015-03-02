@@ -171,7 +171,7 @@ else:
             'MAX_ENTRIES': 5000,
         },
     }
-if 'PARLIAMENT_CODE' in globals():
+if 'PARLIAMENT_CODE' in globals() and 'LOCATION' in cache:
     cache['LOCATION'] += '/%s/%s' % (COUNTRY_CODE, PARLIAMENT_CODE)
 CACHES = {
     'default': cache
