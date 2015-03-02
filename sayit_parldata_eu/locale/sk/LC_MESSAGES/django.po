@@ -1,0 +1,1298 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Jaroslav Semančík <jaroslav_semancik@yahoo.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: sayit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-14 16:47+0000\n"
+"PO-Revision-Date: 2015-03-02 20:33+0000\n"
+"Last-Translator: Jaroslav Semančík <jaroslav_semancik@yahoo.com>\n"
+"Language-Team: Slovak (http://www.transifex.com/projects/p/sayit/language/sk/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: extra-locales/popolo/behaviors/models.py:51 models.py:234 models.py:632
+msgid "start date"
+msgstr "dátum začiatku"
+
+#: extra-locales/popolo/behaviors/models.py:53
+msgid "The date when the validity of the item starts"
+msgstr "Dátum, kedy začína platnosť položky"
+
+#: extra-locales/popolo/behaviors/models.py:56 models.py:638
+msgid "end date"
+msgstr "dátum konca"
+
+#: extra-locales/popolo/behaviors/models.py:58
+msgid "The date when the validity of the item ends"
+msgstr "Dátum, kedy končí platnosť položky"
+
+#: extra-locales/popolo/behaviors/models.py:70
+msgid "creation time"
+msgstr "čas vytvorenia"
+
+#: extra-locales/popolo/behaviors/models.py:71
+msgid "last modification time"
+msgstr "čas poslednej úpravy"
+
+#: extra-locales/popolo/models.py:22 extra-locales/popolo/models.py:92
+#: extra-locales/popolo/models.py:252
+msgid "name"
+msgstr "meno"
+
+#: extra-locales/popolo/models.py:22
+msgid "A person's preferred full name"
+msgstr "Celé meno osoby"
+
+#: extra-locales/popolo/models.py:27
+msgid "family name"
+msgstr "priezvisko"
+
+#: extra-locales/popolo/models.py:27
+msgid "One or more family names"
+msgstr "Jedno alebo viac priezvisk"
+
+#: extra-locales/popolo/models.py:28
+msgid "given name"
+msgstr "krstné meno"
+
+#: extra-locales/popolo/models.py:28
+msgid "One or more primary given names"
+msgstr "Jedno alebo viac krstných mien"
+
+#: extra-locales/popolo/models.py:29
+msgid "additional name"
+msgstr "ďalšie meno"
+
+#: extra-locales/popolo/models.py:29
+msgid "One or more secondary given names"
+msgstr "Jedno alebo viac ďalších krstných mien"
+
+#: extra-locales/popolo/models.py:30
+msgid "honorific prefix"
+msgstr "titul pred menom"
+
+#: extra-locales/popolo/models.py:30
+msgid "One or more honorifics preceding a person's name"
+msgstr "Jeden alebo viac titulov predchádzajúcich meno osoby"
+
+#: extra-locales/popolo/models.py:31
+msgid "honorific suffix"
+msgstr "titul za menom"
+
+#: extra-locales/popolo/models.py:31
+msgid "One or more honorifics following a person's name"
+msgstr "Jeden alebo viac titulov nasledujúcich za menom osoby"
+
+#: extra-locales/popolo/models.py:32
+msgid "patronymic name"
+msgstr "otcovské meno"
+
+#: extra-locales/popolo/models.py:32
+msgid "One or more patronymic names"
+msgstr "Jedno alebo viac otcovských mien"
+
+#: extra-locales/popolo/models.py:33
+msgid "sort name"
+msgstr "meno pre triedenie"
+
+#: extra-locales/popolo/models.py:33
+msgid "A name to use in an lexicographically ordered list"
+msgstr "Tvar mena pre triedenie podľa abecedy"
+
+#: extra-locales/popolo/models.py:34
+msgid "email"
+msgstr "e-mail"
+
+#: extra-locales/popolo/models.py:34
+msgid "A preferred email address"
+msgstr "Preferovaná e-mailová adresa"
+
+#: extra-locales/popolo/models.py:35
+msgid "gender"
+msgstr "pohlavie"
+
+#: extra-locales/popolo/models.py:35
+msgid "A gender"
+msgstr "Pohlavie"
+
+#: extra-locales/popolo/models.py:36
+msgid "birth date"
+msgstr "dátum narodenia"
+
+#: extra-locales/popolo/models.py:36
+msgid "A date of birth"
+msgstr "Dátum narodenia"
+
+#: extra-locales/popolo/models.py:37
+msgid "death date"
+msgstr "dátum úmrtia"
+
+#: extra-locales/popolo/models.py:37
+msgid "A date of death"
+msgstr "Dátum úmrtia"
+
+#: extra-locales/popolo/models.py:38
+msgid "summary"
+msgstr "zhrnutie"
+
+#: extra-locales/popolo/models.py:38
+msgid "A one-line account of a person's life"
+msgstr "Jednoriadkový popis života osoby"
+
+#: extra-locales/popolo/models.py:39
+msgid "biography"
+msgstr "životopis"
+
+#: extra-locales/popolo/models.py:39
+msgid "An extended account of a person's life"
+msgstr "Obsiahlejší popis života osoby"
+
+#: extra-locales/popolo/models.py:40
+msgid "image"
+msgstr "obrázok"
+
+#: extra-locales/popolo/models.py:40
+msgid "A URL of a head shot"
+msgstr "URL obrázku s portrétom"
+
+#: extra-locales/popolo/models.py:92
+msgid "A primary name, e.g. a legally recognized name"
+msgstr "Oficiálny názov, napr. ten právne uznávaný"
+
+#: extra-locales/popolo/models.py:97
+msgid "classification"
+msgstr "klasifikácia"
+
+#: extra-locales/popolo/models.py:97
+msgid "An organization category, e.g. committee"
+msgstr "Kategória organizácie, napr. výbor"
+
+#: extra-locales/popolo/models.py:100
+msgid "The organization that contains this organization"
+msgstr "Organizácia, ktorá obsahuje túto organizáciu"
+
+#: extra-locales/popolo/models.py:102
+msgid "dissolution date"
+msgstr "dátum zrušenia"
+
+#: extra-locales/popolo/models.py:108
+msgid "A date of dissolution"
+msgstr "Dátum zrušenia"
+
+#: extra-locales/popolo/models.py:109
+msgid "founding date"
+msgstr "dátum založenia"
+
+#: extra-locales/popolo/models.py:115
+msgid "A date of founding"
+msgstr "Dátum založenia"
+
+#: extra-locales/popolo/models.py:153 extra-locales/popolo/models.py:184
+#: extra-locales/popolo/models.py:232
+msgid "label"
+msgstr "pomenovanie"
+
+#: extra-locales/popolo/models.py:153
+msgid "A label describing the post"
+msgstr "Pomenovanie opisujúce post"
+
+#: extra-locales/popolo/models.py:154 extra-locales/popolo/models.py:185
+msgid "role"
+msgstr "rola"
+
+#: extra-locales/popolo/models.py:154
+msgid "The function that the holder of the post fulfills"
+msgstr "Funkcia, ktorú zastáva držiteľ postu"
+
+#: extra-locales/popolo/models.py:158
+msgid "The organization in which the post is held"
+msgstr "Organizácia, v ktorej sa post nachádza"
+
+#: extra-locales/popolo/models.py:184
+msgid "A label describing the membership"
+msgstr "Pomenovanie opisujúce členstvo"
+
+#: extra-locales/popolo/models.py:185
+msgid "The role that the person fulfills in the organization"
+msgstr "Rola, ktorú plní osoba v organizácii"
+
+#: extra-locales/popolo/models.py:189
+msgid "The person who is a party to the relationship"
+msgstr "Osoba, ktorá je vo vzťahu"
+
+#: extra-locales/popolo/models.py:193
+msgid "The organization that is a party to the relationship"
+msgstr "Organizácia, ktorá je vo vzťahu"
+
+#: extra-locales/popolo/models.py:196
+msgid ""
+"The organization on whose behalf the person is a party to the relationship"
+msgstr "Organizácia, ktorú zastupuje osoba vo vzťahu"
+
+#: extra-locales/popolo/models.py:200
+msgid ""
+"The post held by the person in the organization through this membership"
+msgstr "Post v organizácii, ktorý osoba zastáva cez toto členstvo"
+
+#: extra-locales/popolo/models.py:223
+msgid "Fax"
+msgstr "Fax"
+
+#: extra-locales/popolo/models.py:224
+msgid "Telephone"
+msgstr "Telefón"
+
+#: extra-locales/popolo/models.py:225
+msgid "Mobile"
+msgstr "Mobil"
+
+#: extra-locales/popolo/models.py:226
+msgid "Email"
+msgstr "E-mail"
+
+#: extra-locales/popolo/models.py:227
+msgid "Snail mail"
+msgstr "Poštová adresa"
+
+#: extra-locales/popolo/models.py:228
+msgid "Twitter"
+msgstr "Twitter"
+
+#: extra-locales/popolo/models.py:229
+msgid "Facebook"
+msgstr "Facebook"
+
+#: extra-locales/popolo/models.py:232
+msgid "A human-readable label for the contact detail"
+msgstr "Ľudsky zrozumiteľné pomenovanie pre kontaktný údaj"
+
+#: extra-locales/popolo/models.py:233 models.py:618
+msgid "type"
+msgstr "typ"
+
+#: extra-locales/popolo/models.py:233
+msgid "A type of medium, e.g. 'fax' or 'email'"
+msgstr "Typ média, napr. 'fax' alebo 'email'"
+
+#: extra-locales/popolo/models.py:234
+msgid "value"
+msgstr "hodnota"
+
+#: extra-locales/popolo/models.py:234
+msgid "A value, e.g. a phone number or email address"
+msgstr "Hodnota, napr. telefónne číslo alebo e-mailová adresa"
+
+#: extra-locales/popolo/models.py:235 extra-locales/popolo/models.py:253
+#: extra-locales/popolo/models.py:280 extra-locales/popolo/models.py:292
+msgid "note"
+msgstr "poznámka"
+
+#: extra-locales/popolo/models.py:235
+msgid "A note, e.g. for grouping contact details by physical location"
+msgstr "Poznámka, napr. na zoskupovanie kontaktných údajov podľa miesta"
+
+#: extra-locales/popolo/models.py:252
+msgid "An alternate or former name"
+msgstr "Náhradné alebo predošlé meno"
+
+#: extra-locales/popolo/models.py:253
+msgid "A note, e.g. 'Birth name'"
+msgstr "Poznámka, napr. 'Rodné meno'"
+
+#: extra-locales/popolo/models.py:267
+msgid "identifier"
+msgstr "identifikátor"
+
+#: extra-locales/popolo/models.py:267
+msgid "An issued identifier, e.g. a DUNS number"
+msgstr "Priradený identifikátor, napr. číslo IČO"
+
+#: extra-locales/popolo/models.py:268
+msgid "scheme"
+msgstr "schéma"
+
+#: extra-locales/popolo/models.py:268
+msgid "An identifier scheme, e.g. DUNS"
+msgstr "Schéma identifikátora, napr. IČO"
+
+#: extra-locales/popolo/models.py:279 extra-locales/popolo/models.py:291
+msgid "url"
+msgstr "url"
+
+#: extra-locales/popolo/models.py:279 extra-locales/popolo/models.py:291
+msgid "A URL"
+msgstr "URL"
+
+#: extra-locales/popolo/models.py:280
+msgid "A note, e.g. 'Wikipedia page'"
+msgstr "Poznámka, napr. 'Stránka na Wikipédii'"
+
+#: extra-locales/popolo/models.py:292
+msgid "A note, e.g. 'Parliament website'"
+msgstr "Poznámka, napr. 'Webstránka parlamentu'"
+
+#: forms.py:75
+msgid "Assign to section"
+msgstr "Priradiť do sekcie"
+
+#: forms.py:201
+msgid "You must select an existing speaker"
+msgstr "Treba vybrať existujúceho rečníka"
+
+#: forms.py:294
+msgid "Choose tags"
+msgstr "Vyberte tagy"
+
+#: forms.py:313
+msgid "You must provide either text or some audio"
+msgstr "Treba zadať text alebo audionahrávku"
+
+#: forms.py:331
+msgid "If you provide a start time you must give a start date too"
+msgstr "K času začiatku treba zadať aj dátum začiatku"
+
+#: forms.py:338
+msgid "If you provide an end time you must give an end date too"
+msgstr "K času konca treba zadať aj dátum konca"
+
+#: forms.py:477
+msgid "Something cannot be its own parent"
+msgstr "Nemôže byť svojim vlastným rodičom"
+
+#: forms.py:481
+msgid "Something cannot have a parent that is also a descendant"
+msgstr "Nemôže mať rodiča, ktorý je zároveň aj potomkom"
+
+#: forms.py:496
+msgid "New speaker"
+msgstr "Nový rečník"
+
+#: forms.py:504
+#, python-format
+msgid "This speaker has %(count)d speech. What would you like to do with it?"
+msgid_plural ""
+"This speaker has %(count)d speeches. What would you like to do with them?"
+msgstr[0] "Tento rečník má %(count)d diskusný príspevok. Čo s ním?"
+msgstr[1] "Tento rečník má %(count)d diskusné príspevky. Čo s nimi?"
+msgstr[2] "Tento rečník má %(count)d diskusných príspevkov. Čo s nimi?"
+
+#: forms.py:510
+msgid "Assign it to another speaker"
+msgid_plural "Assign them to another speaker"
+msgstr[0] "Priradiť ho inému rečníkovi"
+msgstr[1] "Priradiť ich inému rečníkovi"
+msgstr[2] "Priradiť ich inému rečníkovi"
+
+#: forms.py:512
+msgid "Make it into narrative (i.e. remove the speaker)"
+msgid_plural "Make them into narrative (i.e. remove the speaker)"
+msgstr[0] "Zmeniť ho na vstupy rozprávača (tj. odstrániť rečníka)"
+msgstr[1] "Zmeniť ich na vstupy rozprávača (tj. odstrániť rečníka)"
+msgstr[2] "Zmeniť ich na vstupy rozprávača (tj. odstrániť rečníka)"
+
+#: forms.py:514
+msgid "Delete it"
+msgid_plural "Delete them"
+msgstr[0] "Zmazať ho"
+msgstr[1] "Zmazať ich"
+msgstr[2] "Zmazať ich"
+
+#: forms.py:530
+msgid "You can't assign speeches to the speaker you're deleting"
+msgstr "Diskusné príspevky nemožno priradiť rečníkovi, ktorého chcete zmazať"
+
+#: forms.py:536
+msgid "You must choose a new speaker if reassigning speeches"
+msgstr "Pri zmene autora diskusných príspevkov treba vybrať nového rečníka"
+
+#: forms.py:542
+msgid "You must not choose a new speaker unless reassigning speeches"
+msgstr "Ak sa nemení autor diskusných príspevkov, nemožno určovať nového rečníka"
+
+#: forms.py:591
+msgid "Start time is before recording start time!"
+msgstr "Čas začiatku je pred začiatkom nahrávky!"
+
+#: forms.py:601
+msgid "Difference between timestamps is too long for the uploaded audio"
+msgstr "Rozdiel medzi časmi je pre vloženú audionahrávku príliš veľký"
+
+#: forms.py:609
+msgid "Timestamps must be distinct"
+msgstr "Časy musia byť odlišné"
+
+#: forms.py:624
+msgid "Location of Popolo JSON data"
+msgstr "Umiestnenie Popolo JSON dát"
+
+#: forms.py:642
+msgid "Location of Akoma Ntoso data"
+msgstr "Umiestnenie Akoma Ntoso dát"
+
+#: forms.py:650
+msgid "What would you like to do with existing top level sections?"
+msgstr "Čo s existujúcimi sekciami najvyššej úrovne?"
+
+#: forms.py:652
+msgid "Skip them - keep them exactly as they are"
+msgstr "Preskočiť ich – zachovať presne tak, ako sú"
+
+#: forms.py:653
+msgid "Replace them - throw away the existing data and use the new"
+msgstr "Nahradiť ich – zahodiť existujúce dáta a použiť nové"
+
+#: forms.py:654
+msgid ""
+"Merge the new data into the existing sections - things in both will be "
+"duplicated"
+msgstr "Pričleniť nové dáta do existujúcich sekcií – veci prítomné v oboch budú zdvojené"
+
+#: importers/import_popolo.py:135
+msgid "Either a file path or a URL is needed."
+msgstr "Treba buď cestu k súboru alebo URL"
+
+#: importers/import_popolo.py:138
+#, python-format
+msgid "Failed to decode JSON at %(source)s"
+msgstr "Nepodarilo sa dekódovať JSON z %(source)s"
+
+#: importers/import_popolo.py:164
+msgid "The json must contain either an object or an array"
+msgstr "JSON musí obsahovať buď objekt alebo pole"
+
+#: management/commands/sayit_search_make_index_live.py:9
+msgid "Update the default alias to point at search index write alias is using"
+msgstr "Aktualizovať predvolený alias tak, aby ukazoval na vyhľadávací index, ktorý alias využíva"
+
+#: management/commands/sayit_search_new_index.py:11
+msgid "Create a new dated search index for reindexing with no downtime"
+msgstr "Vytvoriť nový vyhľadávací index na preindexovanie bez výpadku"
+
+#: models.py:111 models.py:247
+msgid "slug"
+msgstr "slug"
+
+#: models.py:118
+msgid "image_cache"
+msgstr "image_cache"
+
+#: models.py:122
+msgid "If image is set, a local copy will be stored here."
+msgstr "Ak je nastavený obrázok, sem sa uloží jeho lokálna kópia"
+
+#: models.py:128 models.py:612
+msgid "speaker"
+msgstr "rečník"
+
+#: models.py:129
+msgid "speakers"
+msgstr "rečníci"
+
+#: models.py:196
+msgid "tag"
+msgstr "tag"
+
+#: models.py:197 models.py:644
+msgid "tags"
+msgstr "tagy"
+
+#: models.py:225 models.py:593
+msgid "number"
+msgstr "číslo"
+
+#: models.py:225
+msgid "The number of the section"
+msgstr "Číslo sekcie"
+
+#: models.py:227 models.py:596
+msgid "heading"
+msgstr "nadpis"
+
+#: models.py:227
+msgid "The heading of the section"
+msgstr "Nadpis sekcie"
+
+#: models.py:229 models.py:599
+msgid "subheading"
+msgstr "podnadpis"
+
+#: models.py:230
+msgid "The subheading of the section"
+msgstr "Podnadpis sekcie"
+
+#: models.py:232
+msgid "description"
+msgstr "opis"
+
+#: models.py:232
+msgid "Longer description, HTML"
+msgstr "Dlhší opis, HTML"
+
+#: models.py:235
+msgid "What date did the section start?"
+msgstr "Kedy (dátum) sekcia začala?"
+
+#: models.py:237 models.py:635
+msgid "start time"
+msgstr "čas začiatku"
+
+#: models.py:238
+msgid "What time did the section start?"
+msgstr "Kedy (čas) sekcia začala?"
+
+#: models.py:239
+msgid "document number"
+msgstr "číslo dokumentu"
+
+#: models.py:240
+msgid "legislature"
+msgstr "zákonodarný zbor"
+
+#: models.py:242
+msgid "session"
+msgstr "schôdza"
+
+#: models.py:242
+msgid "Legislative session"
+msgstr "Legislatívna schôdza"
+
+#: models.py:244
+msgid "parent"
+msgstr "rodič"
+
+#: models.py:248 models.py:653
+msgid "source URL"
+msgstr "zdrojové URL"
+
+#: models.py:253
+msgid "section"
+msgstr "sekcia"
+
+#: models.py:254
+msgid "sections"
+msgstr "sekcie"
+
+#: models.py:259 models.py:589
+msgid "Section"
+msgstr "Sekcia"
+
+#: models.py:271
+msgid "You must specify at least one of num/heading/subheading"
+msgstr "Treba zadať aspoň jedno z číslo / nadpis / podnapis"
+
+#: models.py:582
+msgid "audio"
+msgstr "audio"
+
+#: models.py:584
+msgid "text"
+msgstr "text"
+
+#: models.py:585
+msgid "The text of the speech"
+msgstr "Text diskusného príspevku"
+
+#: models.py:594
+msgid "The number of the speech, if relevant"
+msgstr "Číslo diskusného príspevku, ak je relevantné"
+
+#: models.py:597
+msgid "The heading of the speech, if relevant"
+msgstr "Nadpis diskusného príspevku, ak je relevantný"
+
+#: models.py:600
+msgid "The subheading of the speech, if relevant"
+msgstr "Podnadpis diskusného príspevku, ak je relevantný"
+
+#: models.py:604
+msgid "event"
+msgstr "udalosť"
+
+#: models.py:605
+msgid "Was the speech at a particular event?"
+msgstr "Odznel diskusný príspevok na určitej udalosti?"
+
+#: models.py:607
+msgid "location"
+msgstr "miesto"
+
+#: models.py:608
+msgid "Where the speech took place"
+msgstr "Kde diskusný príspevok odznel?"
+
+#: models.py:613
+msgid "Who gave this speech?"
+msgstr "Kto diskusný príspevok predniesol?"
+
+#: models.py:620
+msgid "Speech"
+msgstr "Reč"
+
+#: models.py:621
+msgid "Question"
+msgstr "Otázka"
+
+#: models.py:622
+msgid "Answer"
+msgstr "Odpoveď"
+
+#: models.py:623
+msgid "Scene"
+msgstr "Scéna"
+
+#: models.py:624
+msgid "Narrative"
+msgstr "Rozprávač"
+
+#: models.py:625
+msgid "Summary"
+msgstr "Zhrnutie"
+
+#: models.py:626
+msgid "Other"
+msgstr "Iné"
+
+#: models.py:628
+msgid "What sort of speech is this?"
+msgstr "Akého druhu je tento diskusný príspevok?"
+
+#: models.py:633
+msgid "What date did the speech start?"
+msgstr "Kedy (dátum) diskusný príspovok začal?"
+
+#: models.py:636
+msgid "What time did the speech start?"
+msgstr "Kedy (čas) diskusný príspevok začal?"
+
+#: models.py:639
+msgid "What date did the speech end?"
+msgstr "Kedy (dátum) diskusný príspevok skončil?"
+
+#: models.py:641
+msgid "end time"
+msgstr "čas konca"
+
+#: models.py:642
+msgid "What time did the speech end?"
+msgstr "Kedy (čas) diskusný príspevok skončil?"
+
+#: models.py:647
+msgid "public"
+msgstr "verejné"
+
+#: models.py:647
+msgid "Is this speech public?"
+msgstr "Je tento diskusný príspevok verejný?"
+
+#: models.py:658
+msgid "celery task ID"
+msgstr "ID celery úlohy"
+
+#: models.py:661
+msgid "speech"
+msgstr "diskusný príspevok"
+
+#: models.py:662
+msgid "speeches"
+msgstr "diskusné príspevky"
+
+#: templates/pagination/pagination.html:5
+#: templates/pagination/pagination.html:7
+msgid "Previous"
+msgstr "Predchádzajúce"
+
+#: templates/pagination/pagination.html:21
+#: templates/pagination/pagination.html:23
+msgid "Next"
+msgstr "Nasledujúce"
+
+#: templates/search/search.html:8 templates/search/search.html.py:11
+#: templates/search/search.html:12 templates/speeches/_home.html:30
+#: templates/speeches/_home.html.py:31
+#: templates/speeches/speaker_detail.html:111
+msgid "Search"
+msgstr "Hľadať"
+
+#: templates/search/search.html:16
+#, python-format
+msgid "Search only speeches by %(speaker)s"
+msgstr "Hľadať len v tom, čo povedal(a) %(speaker)s"
+
+#: templates/search/search.html:29 templates/speeches/base.html:49
+msgid "Speakers"
+msgstr "Rečníci"
+
+#: templates/search/search.html:38
+#, python-format
+msgid "Mentions of <strong>&ldquo;%(query)s&rdquo;</strong> in speeches"
+msgstr "Kde sa <strong>&bdquo;%(query)s&ldquo;</strong> zmieňuje"
+
+#: templates/search/search.html:47
+msgid "No results found"
+msgstr "Nenašli sa žiadne výsledky"
+
+#: templates/speeches/_home.html:14 templates/speeches/parentless_list.html:19
+msgid "Add a new speech"
+msgstr "Pridať nový diskusný príspevok"
+
+#: templates/speeches/_home.html:15 templates/speeches/parentless_list.html:20
+#: templates/speeches/section_form.html:9
+#: templates/speeches/section_form.html:19
+msgid "Add a section"
+msgstr "Pridať sekciu"
+
+#: templates/speeches/_home.html:16 templates/speeches/_home.html.py:88
+#: templates/speeches/popolo_import_form.html:6
+#: templates/speeches/popolo_import_form.html:12
+#: templates/speeches/speaker_list.html:15
+#: templates/speeches/speaker_list.html:49
+msgid "Import speakers"
+msgstr "Importovať rečníkov"
+
+#: templates/speeches/_home.html:17
+#: templates/speeches/akoma_ntoso_import_form.html:6
+#: templates/speeches/parentless_list.html:21
+msgid "Import speeches"
+msgstr "Importovať diskusné príspevky"
+
+#: templates/speeches/_home.html:27
+msgid "Search speeches and statements"
+msgstr "Hladať v diskusiách a výrokoch"
+
+#: templates/speeches/_home.html:56
+#, python-format
+msgid "<a href=\"%(url_parentless_list)s\"><strong>1</strong></a> speech"
+msgid_plural ""
+"<a href=\"%(url_parentless_list)s\"><strong>%(n)s</strong></a> speeches"
+msgstr[0] "<a href=\"%(url_parentless_list)s\"><strong>1</strong></a> príspevok do diskusie"
+msgstr[1] "<a href=\"%(url_parentless_list)s\"><strong>%(n)s</strong></a> príspevky do diskusie"
+msgstr[2] "<a href=\"%(url_parentless_list)s\"><strong>%(n)s</strong></a> príspevkov do diskusie"
+
+#: templates/speeches/_home.html:61
+#, python-format
+msgid "<a href=\"%(url_speaker_list)s\"><strong>1</strong></a> speaker"
+msgid_plural ""
+"<a href=\"%(url_speaker_list)s\"><strong>%(n)s</strong></a> speakers"
+msgstr[0] "<a href=\"%(url_speaker_list)s\"><strong>1</strong></a> rečník"
+msgstr[1] "<a href=\"%(url_speaker_list)s\"><strong>%(n)s</strong></a> rečníci"
+msgstr[2] "<a href=\"%(url_speaker_list)s\"><strong>%(n)s</strong></a> rečníkov"
+
+#: templates/speeches/_home.html:66
+#, python-format
+msgid "<a href=\"%(url_parentless_list)s\"><strong>1</strong></a> section"
+msgid_plural ""
+"<a href=\"%(url_parentless_list)s\"><strong>%(n)s</strong></a> sections"
+msgstr[0] "<a href=\"%(url_parentless_list)s\"><strong>1</strong></a> sekcia"
+msgstr[1] "<a href=\"%(url_parentless_list)s\"><strong>%(n)s</strong></a> sekcie"
+msgstr[2] "<a href=\"%(url_parentless_list)s\"><strong>%(n)s</strong></a> sekcií"
+
+#: templates/speeches/_home.html:82
+msgid "Brilliant!"
+msgstr "Skvelé!"
+
+#: templates/speeches/_home.html:83
+msgid ""
+"Now you&rsquo;ve got your own public database for speeches and statements."
+msgstr "Teraz máte vlastnú verejnú databázu diskusií a výrokov."
+
+#: templates/speeches/_home.html:84
+msgid ""
+"However, it&rsquo;s totally empty. Let&rsquo;s get started by adding "
+"something."
+msgstr "Je však úplne prázdna. Začnime tým, že niečo pridáme."
+
+#: templates/speeches/_home.html:86 templates/speeches/parentless_list.html:62
+#: templates/speeches/speaker_list.html:50
+msgid "Add your first statement"
+msgstr "Pridať prvý výrok"
+
+#: templates/speeches/_home.html:87 templates/speeches/speaker_list.html:48
+msgid "Add your first speaker"
+msgstr "Pridať prvého rečníka"
+
+#: templates/speeches/akoma_ntoso_import_form.html:12
+msgid "Import speeches from Akoma Ntoso"
+msgstr "Importovať diskusie z Akoma Ntoso formátu"
+
+#: templates/speeches/akoma_ntoso_import_form.html:16
+msgid "Import Akoma Ntoso (may take some time)"
+msgstr "Importovať Akoma Ntoso (môže to nejaký čas trvať)"
+
+#: templates/speeches/base.html:48
+msgid "Home"
+msgstr "Domov"
+
+#: templates/speeches/base.html:50 templates/speeches/parentless_list.html:7
+#: templates/speeches/parentless_list.html:23
+#: templates/speeches/speaker_detail.html:97
+msgid "Speeches"
+msgstr "Rozpravy"
+
+#: templates/speeches/base.html:55
+msgid "Welcome,"
+msgstr "Vitajte"
+
+#: templates/speeches/base.html:56
+msgid "Log out"
+msgstr "Odhlásiť sa"
+
+#: templates/speeches/base.html:59
+msgid "Log in"
+msgstr "Prihlásiť sa"
+
+#: templates/speeches/parentless_list.html:42
+msgid "Speeches not in a section"
+msgstr "Diskusné príspevky mimo sekcií"
+
+#: templates/speeches/parentless_list.html:60
+#: templates/speeches/speaker_list.html:45
+msgid "You haven&rsquo;t added any speeches or statements yet"
+msgstr "Zatiaľ ste nepridal(a) žiadne diskusné príspevky ani výroky"
+
+#: templates/speeches/parentless_list.html:61
+msgid ""
+"Once you have, you&rsquo;ll be able to browse speeches and organise them "
+"into sections here."
+msgstr "Až to urobíte, budete si ich tu môcť prezerať a triediť do sekcií."
+
+#: templates/speeches/popolo_import_form.html:15
+msgid ""
+"\n"
+"    <p>Speakers can be imported into SayIt if they are available in <a href='http://www.popoloproject.com/'>Popolo JSON</a> format.<p>\n"
+"    <p>Enter the location of the speaker data as either\n"
+"      <ul>\n"
+"        <li>\n"
+"          A URL, or path to a local file, containing Popolo JSON in the format\n"
+"          <pre>\n"
+"{\n"
+"    'persons': [&lt;a list of persons&gt;],\n"
+"    'organizations': [],\n"
+"    'posts': [],\n"
+"    ...\n"
+"}\n"
+"          </pre>\n"
+"        <li>\n"
+"          A URL, or path to a local file, containing Popolo JSON in the format\n"
+"          <pre>\n"
+"[&lt;a list of persons&gt;]\n"
+"          </pre>\n"
+"        </li>\n"
+"        <li>\n"
+"          A PopIt API base url, such as\n"
+"          <a href=\"https://kenyan-politicians.popit.mysociety.org/api/v0.1/\">https://kenyan-politicians.popit.mysociety.org/api/v0.1/</a>\n"
+"        </li>\n"
+"      </ul>\n"
+"    </p>\n"
+"  "
+msgstr "\n<p>Ak sú rečníci k dispozíci vo formáte <a href='http://www.popoloproject.com/'>Popolo JSON</a>, dajú sa do SayIt importovať.<p>\n<p>Zadajte umiestnenie dát o rečníkoch jednou z možností:\n<ul>\n<li>\nURL alebo cesta k lokálnemu súboru obsahujúcemu Popolo JSON vo formáte\n<pre>\n{\n'persons': [&lt;zoznam osôb&gt;],\n'organizations': [],\n'posts': [],\n...\n}\n</pre>\n<li>\nURL alebo cesta k lokálnemu súboru obsahujúcemu Popolo JSON vo formáte\n<pre>\n[&lt;zoznam osôb&gt;]\n</pre>\n</li>\n<li>\nURL PopIt API, napríklad\n<a href=\"https://kenyan-politicians.popit.mysociety.org/api/v0.1/\">https://kenyan-politicians.popit.mysociety.org/api/v0.1/</a>\n</li>\n</ul>\n</p>"
+
+#: templates/speeches/popolo_import_form.html:44
+msgid "Import People (may take some time)"
+msgstr "Importovať ľudí (môže to nejaký čas trvať)"
+
+#: templates/speeches/recording_detail.html:6
+#: templates/speeches/recording_detail.html:11
+#: templates/speeches/recording_form.html:6
+#: templates/speeches/recording_form.html:11
+#, python-format
+msgid "Recording #%(id)s"
+msgstr "Nahrávka #%(id)s"
+
+#: templates/speeches/recording_detail.html:16
+#: templates/speeches/recording_form.html:15 templates/speeches/speech.html:84
+msgid "This speech has audio"
+msgstr "Diskusný príspevok má audionahrávku"
+
+#: templates/speeches/recording_detail.html:42
+#: templates/speeches/recording_form.html:19
+msgid "Actions"
+msgstr "Akcie"
+
+#: templates/speeches/recording_detail.html:48
+#: templates/speeches/recording_form.html:40
+msgid "Update"
+msgstr "Aktualizovať"
+
+#: templates/speeches/section_confirm_delete.html:5
+msgid "Delete section"
+msgstr "Zmazať sekciu"
+
+#: templates/speeches/section_confirm_delete.html:11
+#: templates/speeches/speech_confirm_delete.html:11
+msgid "Confirm delete?"
+msgstr "Potvrdiť zmazanie?"
+
+#: templates/speeches/section_detail.html:23
+#: templates/speeches/speaker_detail.html:102
+msgid "Add speech"
+msgstr "Pridať príspevok v diskusii"
+
+#: templates/speeches/section_detail.html:24
+msgid "Add subsection"
+msgstr "Pridať podsekciu"
+
+#: templates/speeches/section_detail.html:25
+#: templates/speeches/section_form.html:7
+#: templates/speeches/section_form.html:17
+msgid "Edit section"
+msgstr "Upraviť sekciu"
+
+#: templates/speeches/section_detail.html:33
+#: templates/speeches/speech_detail.html:145
+msgid "Source"
+msgstr "Zdroj"
+
+#: templates/speeches/section_detail.html:94
+#: templates/speeches/speech_detail.html:168
+msgid "Keyboard shortcuts"
+msgstr "Klávesové skratky"
+
+#: templates/speeches/section_detail.html:95
+msgid "previous section"
+msgstr "predch. sekcia"
+
+#: templates/speeches/section_detail.html:96
+msgid "next section"
+msgstr "nasled. sekcia"
+
+#: templates/speeches/section_detail.html:110
+msgid "This section is empty"
+msgstr "Táto sekcia je prázdna"
+
+#: templates/speeches/section_detail.html:111
+msgid "Add a new speech here"
+msgstr "Pridať sem nový diskusný príspevok"
+
+#: templates/speeches/section_form.html:25
+msgid "Update section"
+msgstr "Aktualizovať sekciu"
+
+#: templates/speeches/section_form.html:27
+msgid "Add section"
+msgstr "Pridať sekciu"
+
+#: templates/speeches/speaker_delete.html:7
+#: templates/speeches/speaker_delete.html:16
+#, python-format
+msgid "Delete speaker: %(name)s"
+msgstr "Zmazať rečníka: %(name)s"
+
+#: templates/speeches/speaker_delete.html:23
+#: templates/speeches/speaker_detail.html:26
+msgid "Delete speaker"
+msgstr "Zmazať rečníka"
+
+#: templates/speeches/speaker_detail.html:15
+#, python-format
+msgid "Speeches by %(speaker)s"
+msgstr "%(speaker)s povedal(a)"
+
+#: templates/speeches/speaker_detail.html:25
+#: templates/speeches/speaker_form.html:6
+#: templates/speeches/speaker_form.html:16
+msgid "Edit speaker"
+msgstr "Upraviť rečníka"
+
+#: templates/speeches/speaker_detail.html:49
+msgid "Appearance"
+msgid_plural "Appearances"
+msgstr[0] "Vystúpenie"
+msgstr[1] "Vystúpenia"
+msgstr[2] "Vystúpení"
+
+#: templates/speeches/speaker_detail.html:58
+msgctxt "speaker count"
+msgid "Speech"
+msgid_plural "Speeches"
+msgstr[0] "Diskusný príspevok"
+msgstr[1] "Diskusné príspevky"
+msgstr[2] "Diskusných príspevkov"
+
+#: templates/speeches/speaker_detail.html:85
+msgid "Longest speech"
+msgstr "Najdlhší diskusný príspevok"
+
+#: templates/speeches/speaker_detail.html:110
+msgid "Search this person's speeches"
+msgstr "Hľadať v tom, čo povedal tento rečník"
+
+#: templates/speeches/speaker_detail.html:120
+#, python-format
+msgid "%(speaker)s has no recorded speeches yet."
+msgstr "%(speaker)s zatiaľ nič nepovedal(a)."
+
+#: templates/speeches/speaker_form.html:8
+#: templates/speeches/speaker_form.html:18
+msgid "Add a speaker"
+msgstr "Pridať rečníka"
+
+#: templates/speeches/speaker_form.html:24
+msgid "Update speaker"
+msgstr "Aktualizovať rečníka"
+
+#: templates/speeches/speaker_form.html:26
+msgid "Add speaker"
+msgstr "Pridať rečníka"
+
+#: templates/speeches/speaker_list.html:7
+#: templates/speeches/speaker_list.html:18
+msgid "All Speakers"
+msgstr "Všetci rečníci"
+
+#: templates/speeches/speaker_list.html:14
+msgid "Add a new speaker"
+msgstr "Pridať nového rečníka"
+
+#: templates/speeches/speaker_list.html:46
+msgid ""
+"Once you have, this page will contain a list of all the different people who"
+" made each statement in this SayIt site."
+msgstr "Až to urobíte, bude tu zoznam všetkých ľudí, ktorí povedali niečo zaznamenané na tomto webe."
+
+#: templates/speeches/speech.html:23
+msgid "Invisible"
+msgstr "Neviditeľné"
+
+#: templates/speeches/speech.html:94 templates/speeches/speech.html.py:110
+#: templates/speeches/speech.html:135
+msgid "Link in context"
+msgstr "Odkaz v kontexte"
+
+#: templates/speeches/speech.html:96 templates/speeches/speech.html.py:112
+#: templates/speeches/speech.html:137
+msgid "Link"
+msgstr "Odkaz"
+
+#: templates/speeches/speech.html:106
+msgid "[ recorded audio ]"
+msgstr "[ nahraté audio ]"
+
+#: templates/speeches/speech.html:131
+#: templates/speeches/speech_detail.html:148
+msgid "Edit"
+msgstr "Upraviť"
+
+#: templates/speeches/speech.html:132
+#: templates/speeches/speech_detail.html:149
+msgid "Delete"
+msgstr "Zmazať"
+
+#: templates/speeches/speech_confirm_delete.html:5
+msgid "Delete speech"
+msgstr "Zmazať diskusný príspevok"
+
+#: templates/speeches/speech_detail.html:31
+msgid ""
+"Please wait, audio is being transcribed. This page will automatically "
+"refresh in 5 seconds..."
+msgstr "Čakajte prosím, prepisuje sa audionahrávka. Táto stránka sa automaticky obnoví o 5 sekúnd..."
+
+#: templates/speeches/speech_detail.html:39
+msgid "Your speech has been saved!"
+msgstr "Diskusný príspevok sa uložil."
+
+#: templates/speeches/speech_detail.html:41
+msgid "Add another speech like this"
+msgstr "Pridať ďalší podobný príspevok"
+
+#: templates/speeches/speech_detail.html:42
+msgid "Show speech in context"
+msgstr "Ukázať diskusný príspevok v kontexte"
+
+#: templates/speeches/speech_detail.html:44
+msgid "Add another speech"
+msgstr "Pridať ďalší príspevok"
+
+#: templates/speeches/speech_detail.html:62
+#, python-format
+msgid ""
+"<span class=\"speech__meta-data__speech-type\">%(type)s</span> by <span "
+"class=\"speech__meta-data__speaker-name\"> <a "
+"href=\"%(speaker_url)s\">%(speaker)s</a> </span> on <span class"
+"=\"speech__meta-data__date\">%(date)s</span>"
+msgstr "<span class=\"speech__meta-data__speech-type\">%(type)s</span> od <span class=\"speech__meta-data__speaker-name\"> <a href=\"%(speaker_url)s\">%(speaker)s</a> </span> dňa <span class=\"speech__meta-data__date\">%(date)s</span>"
+
+#: templates/speeches/speech_detail.html:72
+#, python-format
+msgid ""
+"<span class=\"speech__meta-data__speech-type\">%(type)s</span> by <span "
+"class=\"speech__meta-data__speaker-name\"> <a "
+"href=\"%(speaker_url)s\">%(speaker)s</a> </span>"
+msgstr "<span class=\"speech__meta-data__speech-type\">%(type)s</span> od <span class=\"speech__meta-data__speaker-name\"> <a href=\"%(speaker_url)s\">%(speaker)s</a> </span>"
+
+#: templates/speeches/speech_detail.html:82
+#, python-format
+msgid ""
+"<span class=\"speech__meta-data__speech-type\">%(type)s</span> by <span "
+"class=\"speech__meta-data__speaker-name\">an unknown speaker</span> on <span"
+" class=\"speech__meta-data__date\">%(date)s</span>"
+msgstr "<span class=\"speech__meta-data__speech-type\">%(type)s</span> od <span class=\"speech__meta-data__speaker-name\">neznámeho rečníka</span> dňa <span class=\"speech__meta-data__date\">%(date)s</span>"
+
+#: templates/speeches/speech_detail.html:90
+#, python-format
+msgid ""
+"<span class=\"speech__meta-data__speech-type\">%(type)s</span> by <span "
+"class=\"speech__meta-data__speaker-name\">an unknown speaker</span>"
+msgstr "<span class=\"speech__meta-data__speech-type\">%(type)s</span> od <span class=\"speech__meta-data__speaker-name\">neznámeho rečníka</span>"
+
+#: templates/speeches/speech_detail.html:99
+#, python-format
+msgid ""
+"<span class=\"speech__meta-data__speech-type\">%(type)s</span> on <span "
+"class=\"speech__meta-data__date\">%(date)s</span>"
+msgstr "<span class=\"speech__meta-data__speech-type\">%(type)s</span> dňa <span class=\"speech__meta-data__date\">%(date)s</span>"
+
+#: templates/speeches/speech_detail.html:105
+#, python-format
+msgid "<span class=\"speech__meta-data__speech-type\">%(type)s</span>"
+msgstr "<span class=\"speech__meta-data__speech-type\">%(type)s</span>"
+
+#: templates/speeches/speech_detail.html:142
+msgid "Show context"
+msgstr "Ukázať kontext"
+
+#: templates/speeches/speech_detail.html:169
+msgid "previous speech"
+msgstr "predch. príspevok"
+
+#: templates/speeches/speech_detail.html:170
+msgid "next speech"
+msgstr "nasled. príspevok"
+
+#: templates/speeches/speech_form.html:15
+#: templates/speeches/speech_form.html:37
+msgid "Edit speech"
+msgstr "Upraviť diskusný príspevok"
+
+#: templates/speeches/speech_form.html:17
+#: templates/speeches/speech_form.html:39
+msgid "Add a speech"
+msgstr "Pridať diskusný príspevok"
+
+#: templates/speeches/speech_form.html:40
+msgid ""
+"You can cut and paste quotes from news sites, social media or blogs,<br>or "
+"transcribe any audio or video records you may have access to"
+msgstr "Môžete prekopírovať citáty zo spravodajských webov, sociálnych médií či blogov, <br> alebo prepísať akékoľvek audio- či videonahrávky, ktoré máte k dispozícii"
+
+#: templates/speeches/speech_form.html:71
+msgid "Date &amp; Time"
+msgstr "Dátum a čas"
+
+#: templates/speeches/speech_form.html:95
+msgid "Event &amp; Location"
+msgstr "Udalosť a miesto"
+
+#: templates/speeches/speech_form.html:104
+msgid "Title &amp; Tags"
+msgstr "Nadpis a tagy"
+
+#: templates/speeches/speech_form.html:115
+msgid "Save changes"
+msgstr "Uložiť zmeny"
+
+#: templates/speeches/speech_form.html:117
+msgid "Save speech"
+msgstr "Uložiť príspevok"
+
+#: views.py:294
+#, python-format
+msgid "View Speaker: %(speaker_name)s"
+msgstr "Zobraziť rečníka: %(speaker_name)s"
+
+#: views.py:455
+#, python-format
+msgid "View Section: %(section_title)s"
+msgstr "Zobraziť sekciu: %(section_title)s"
+
+#: views.py:511
+msgid "Speeches assigned."
+msgstr "Príspevky priradené."
+
+#: views.py:664
+#, python-format
+msgid "%(created)d speaker created."
+msgid_plural "%(created)d speakers created."
+msgstr[0] "Vytvorený %(created)d rečník."
+msgstr[1] "Vytvorení %(created)d rečníci."
+msgstr[2] "Vytvorených %(created)d rečníkov."
+
+#: views.py:669
+#, python-format
+msgid "%(refreshed)d speaker refreshed."
+msgid_plural "%(refreshed)d speakers refreshed."
+msgstr[0] "Aktualizovaný %(refreshed)d rečník."
+msgstr[1] "Aktualizovaní %(refreshed)d rečníci."
+msgstr[2] "Aktualizovaných %(refreshed)d rečníkov."
+
+#: views.py:680
+msgid "No speakers found."
+msgstr "Nenašli sa žiadni rečníci."
+
+#: views.py:709
+msgid "Sorry - something went wrong with the import"
+msgstr "Prepáčte – niečo sa pri importe pokazilo"
+
+#: views.py:721
+msgid "Created: "
+msgstr "Vytvorené:"
+
+#: views.py:724
+#, python-format
+msgid "%(speakers)d speaker"
+msgid_plural "%(speakers)d speakers"
+msgstr[0] "%(speakers)d rečník"
+msgstr[1] "%(speakers)d rečníci"
+msgstr[2] "%(speakers)d rečníkov"
+
+#: views.py:729
+#, python-format
+msgid "%(sections)d section"
+msgid_plural "%(sections)d sections"
+msgstr[0] "%(sections)d sekcia"
+msgstr[1] "%(sections)d sekcie"
+msgstr[2] "%(sections)d sekcií"
+
+#: views.py:734
+#, python-format
+msgid "%(speeches)d speech"
+msgid_plural "%(speeches)d speeches"
+msgstr[0] "%(speeches)d diskusný príspevok"
+msgstr[1] "%(speeches)d diskusné príspevky"
+msgstr[2] "%(speeches)d diskusných príspevkov"
+
+#: views.py:745
+msgid "Nothing new to import."
+msgstr "Nič nové na import."
+
+#: widgets.py:46
+msgid "yyyy-mm-dd"
+msgstr "rrrr-mm-dd"
+
+#: widgets.py:47
+msgid "dd/mm/yyyy"
+msgstr "dd/mm/rrrr"
+
+#: widgets.py:48
+msgid "dd/mm/yy"
+msgstr "dd/mm/rr"
+
+#: widgets.py:49
+msgid "mm/dd/yyyy"
+msgstr "mm/dd/rrrr"
+
+#: widgets.py:50
+msgid "mm/dd/yy"
+msgstr "mm/dd/rr"
+
+#: widgets.py:108
+msgid "hh:mm"
+msgstr "hh:mm"
