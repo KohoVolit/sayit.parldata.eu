@@ -11,7 +11,7 @@ from django.views.decorators.cache import cache_page
 ## from django.contrib import admin
 ## admin.autodiscover()
 
-from speeches.views import SpeakerList, SpeakerView, SectionView
+from speeches.views import InstanceView, SpeakerList, SpeakerView, SectionView
 from .views import RecentView
 
 urlpatterns = staticfiles_urlpatterns()
@@ -31,6 +31,13 @@ if 'test' in sys.argv:
         }),
     )
 
+# set the last URL pattern of the speeches app to be cached keeping it last
+speeches_patterns = url(r'^', include('speeches.urls', app_name='speeches', namespace='speeches'))
+speeches_patterns.url_patterns.pop()
+speeches_patterns.url_patterns.append(
+    url(r'^(?P<full_slug>.+)$', cache_page(10*365*86400)(SectionView.as_view()), name='section-view')
+)
+
 urlpatterns += patterns(
     '',
 ##    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -39,12 +46,10 @@ urlpatterns += patterns(
 ##    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
 ##    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
 
+    # redirect some of the speeches app views or set them to be cached
+    url(r'^$', cache_page(10*365*86400)(InstanceView.as_view()), name='home'),
     url(r'^speeches$', cache_page(10*365*86400)(RecentView.as_view()), name='recent-view'),
-
-    # set caching for some views of the speeches app
     url(r'^speakers$', cache_page(10*365*86400)(SpeakerList.as_view()), name='speaker-list'),
-    url(r'^speaker/(?P<slug>.+)$', SpeakerView.as_view(), name='speaker-view'),
-    url(r'^(?P<full_slug>.+)$', cache_page(10*365*86400)(SectionView.as_view()), name='section-view'),
 
-    url(r'^', include('speeches.urls', app_name='speeches', namespace='speeches')),
+    speeches_patterns,
 )
