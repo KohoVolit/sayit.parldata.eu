@@ -95,9 +95,10 @@ Importing of data
 
 Data are imported from ``api.parldata.eu`` via commandline script
 ``manage.py`` using the command ``load_parldata`` and the subdomain
-specified in ``--settings`` option. The script must be executed in
-virtual environment of the installation and as the user running the
-webserver (because of Caching_).
+specified in ``--settings`` option. Running the command without
+specifying a subdomain imports data for all subdomains. The script must
+be executed in virtual environment of the installation and as the user
+running the webserver (because of Caching_).
 
 Quality of debates data at ``api.parldata.eu`` for all parliaments may
 be checked before initial import by a simple script
@@ -115,11 +116,11 @@ To initially import data for Slovak parliament subdomain:
     $ source /home/projects/.virtualenvs/sayit/bin/activate
     (sayit)$ sudo -u www-data /home/projects/sayit/manage.py load_parldata --settings subdomains.sk_nrsr --initial
 
-To load new data since the last import:
+To load new data since the last import for all subdomains:
 
 .. code-block:: console
 
-    (sayit)$ sudo -u www-data /home/projects/sayit/manage.py load_parldata --settings subdomains.sk_nrsr
+    (sayit)$ sudo -u www-data /home/projects/sayit/manage.py load_parldata
 
 Schedule the incremental update to be executed by Cron if regular
 updates are needed.
@@ -184,16 +185,24 @@ For domain-independent ``manage.py`` commands like ``collectstatic`` the
 Caching
 -------
 
-Rendering of templates for long debates may take a long time. It takes
-10-20s for sittings with hundreds of speeches. Because of that, caching
-is need.
+Rendering of templates for long debates (hundreds of speeches) may take
+a long time. Because of that, caching is need.
 
 Server-side caching on the filesystem is used for all section views and
 the speakers list. Pages are rendered into cache in advance by the
 import script for all imported or updated sections. Hence a user never
 waits for a template to render, the page is always served from cache.
 
+The cache must be manually refreshed after any modification of
+application code that affects output of views or after any changes in
+CSS. Refresh the cache for all subdomains by Django command:
+
+.. code-block:: console
+
+    (sayit)$ sudo -u www-data /home/projects/sayit/manage.py refresh_cache
+
 Django's FileBasedCache creates files accessible only by the user who
 created them. Because the cache is written by the import script and read
 by the webserver, both have to run as the same user. Therefore the
-import script must be executed as the webserver user, eg. *www-data*.
+import script and cache refreshment command must be executed as the
+webserver user, eg. *www-data*.

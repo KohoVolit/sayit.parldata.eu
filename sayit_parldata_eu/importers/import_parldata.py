@@ -126,7 +126,7 @@ class ParldataImporter:
             if len(defaults['image']) >  200:
                 defaults['image'] = None
 
-            _record, created = update_object(
+            _record, created = _update_object(
                 Speaker.objects, person,
                 identifiers__identifier=person['id'],
                 defaults=defaults,
@@ -137,11 +137,7 @@ class ParldataImporter:
 
         self._vlog('Imported %i persons (%i created, %i updated)' % (count_c+count_u, count_c, count_u))
 
-        # refresh speakers list in the cache
-        self._vlog('Refreshing speakers list cache')
-        self._refresh_cache('/')
-        self._refresh_cache('/speakers')
-        self._vlog('Refreshed')
+        self.refresh_speakers_cache()
 
     def load_debates(self):
         self._vlog('Importing debates')
@@ -209,7 +205,7 @@ class ParldataImporter:
                     if sitting['parent_id'] != session.get('id'):
                         session = vpapi.get('events/%s' % sitting['parent_id'])
                         self._vlog('Importing session `%s`' % session.get('name'))
-                        sd, st = local_date_time(session.get('start_date'))
+                        sd, st = _local_date_time(session.get('start_date'))
                         defaults = {
                             'heading': session.get('name'),
                             'start_date': sd,
@@ -230,7 +226,7 @@ class ParldataImporter:
 
                 # create/update new section corresponding to the sitting
                 self._vlog('Importing sitting `%s`' % sitting.get('name'))
-                sd, st = local_date_time(sitting.get('start_date'))
+                sd, st = _local_date_time(sitting.get('start_date'))
                 defaults = {
                     'heading': sitting.get('name'),
                     'start_date': sd,
@@ -253,7 +249,7 @@ class ParldataImporter:
             speaker = speakers.get(speech.get('creator_id'))
             start = speech.get('date') or \
                 sitting.get('start_date') or session.get('start_date') or chamber.get('founding_date')
-            sd, st = local_date_time(start)
+            sd, st = _local_date_time(start)
             defaults = {
                 'audio': speech.get('audio', ''),
                 'text': speech.get('text', ''),
@@ -294,23 +290,34 @@ class ParldataImporter:
             sec_count_c+sec_count_u, sec_count_c, sec_count_u,
             sp_count_c+sp_count_u, sp_count_c, sp_count_u))
 
-        # refresh updated sections in the cache
+        self.refresh_debates_cache(updated_sections)
+
+    def refresh_speakers_cache(self):
+        self._vlog('Refreshing speakers list cache')
+        self._refresh_cache('/')
+        self._refresh_cache('/speakers')
+        self._vlog('Refreshed')
+
+    def refresh_debates_cache(self, sections=None):
+        self._vlog('Refreshing sections cache')
         self._refresh_cache('/')
         self._refresh_cache('/speeches')
-        for section in updated_sections:
+        if sections is None:
+            sections = Section.objects.all()
+        for section in sections:
             self._vlog('Refreshing cache for section `%s`' % section.heading)
             self._refresh_cache(section.get_absolute_url())
-        self._vlog('Refreshed %s updated sections' % len(updated_sections))
+        self._vlog('Refreshed cache for %s sections' % len(sections))
 
 
-def local_date_time(dtstr):
+def _local_date_time(dtstr):
     if not dtstr:
         return None, None
     dt = vpapi.utc_to_local(dtstr, to_string=False)
     return dt.date(), dt.time()
 
 
-def update_object(qs, data, defaults=None, **kwargs):
+def _update_object(qs, data, defaults=None, **kwargs):
     # update or create the object itself
     record, created = qs.update_or_create(defaults=defaults, **kwargs)
 
