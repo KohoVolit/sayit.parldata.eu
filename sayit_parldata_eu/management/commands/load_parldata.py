@@ -27,5 +27,5 @@ class Command(BaseCommand):
             subdomains = get_subdomains()
             for sd in subdomains:
                 subprocess.call(
-                    '%s/manage.py load_parldata --settings subdomains.%s --verbosity %s' %
-                    (settings.PROJECT_ROOT, sd, options['verbosity']), shell=True)
+                    '%s/bin/python %s/manage.py load_parldata --settings subdomains.%s --verbosity %s' %
+                    (settings.VIRTUALENV_DIR, settings.PROJECT_ROOT, sd, options['verbosity']), shell=True)
