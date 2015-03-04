@@ -51,7 +51,7 @@
                 <li><a href="{% url 'speeches:parentless-list' %}">{% trans 'Speeches' %}</a></li>
               </ul>
 
-              <ul class="unstyled-list right">
+              <ul class="inline-list right">
                 {% if request.user %}
                 {% if request.is_user_instance %}
                   <li>{% trans 'Welcome,' %} {% firstof user.get_short_name user.get_username %}.
@@ -61,6 +61,7 @@
                   <li><a href="{% url 'login' %}">{% trans 'Log in' %}</a></li>
                 {% endif %}
                 {% endif %}
+                  <li><span>{%trans 'Runs on' %} <a href="http://sayit.mysociety.org">SayIt</a></span></li>
               </ul>
 
             </div>

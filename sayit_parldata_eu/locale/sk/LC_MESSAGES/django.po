@@ -1296,3 +1296,7 @@ msgstr "mm/dd/rr"
 #: widgets.py:108
 msgid "hh:mm"
 msgstr "hh:mm"
+
+#: templates/speeches/base.html:44
+msgid "Runs on"
+msgstr "Beží na"
