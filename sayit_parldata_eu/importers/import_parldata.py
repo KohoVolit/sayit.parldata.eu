@@ -51,9 +51,9 @@ class ParldataImporter:
         # in case of initial import delete all existing data
         if self.initial_import:
             self._vlog('Deleting all existing data')
-            management.call_command('flush', verbosity=0, interactive=False)
+            management.call_command('flush', verbosity=self.verbosity, interactive=False)
             shutil.rmtree(settings.MEDIA_ROOT, ignore_errors=True)
-            shutil.rmtree(settings.CACHES['default']['LOCATION'], ignore_errors=True)
+            shutil.rmtree(settings.CACHES['default'].get('LOCATION'), ignore_errors=True)
 
         self.instance, _created = Instance.objects.get_or_create(label='default')
 
@@ -89,14 +89,14 @@ class ParldataImporter:
         # get datetime of the last import of speakers
         try:
             latest_speaker = Speaker.objects.order_by('-updated_at')[0]
-            last_modified = latest_speaker.updated_at
+            self.previous_speakers_import_at = latest_speaker.updated_at
         except IndexError:
-            last_modified = datetime.min
+            self.previous_speakers_import_at = datetime.min
 
         # update the people modified since the last import and create new ones
         updated_people = vpapi.getall(
             'people',
-            where={'updated_at': {'$gt': last_modified.isoformat()}}
+            where={'updated_at': {'$gt': self.previous_speakers_import_at.isoformat()}}
         )
         count_c = 0
         count_u = 0
@@ -119,7 +119,7 @@ class ParldataImporter:
                 'death_date': person.get('death_date') or '',
                 'summary': person.get('summary') or '',
                 'biography': person.get('biography') or '',
-                'image': urllib.parse.quote(person.get('image'), safe='/:'),
+                'image': urllib.parse.quote(person.get('image', ''), safe='/:'),
             }
 
             # FIXME: fix for currently flawed Serbian data
@@ -145,14 +145,14 @@ class ParldataImporter:
         # get datetime of the last import of speeches
         try:
             latest_speech = Speech.objects.order_by('-modified')[0]
-            last_modified = latest_speech.modified
+            self.previous_debates_import_at = latest_speech.modified
         except IndexError:
-            last_modified = datetime.min
+            self.previous_debates_import_at = datetime.min
 
         # update the speeches modified since the last import and create new ones
         updated_speeches = vpapi.getall(
             'speeches',
-            where={'updated_at': {'$gt': last_modified.isoformat()}},
+            where={'updated_at': {'$gt': self.previous_debates_import_at.isoformat()}},
             sort='event_id,date,position'
         )
 
@@ -308,6 +308,12 @@ class ParldataImporter:
             self._vlog('Refreshing cache for section `%s`' % section.heading)
             self._refresh_cache(section.get_absolute_url())
         self._vlog('Refreshed cache for %s sections' % len(sections))
+
+    def update_search_index(self):
+        update_since = min(self.previous_speakers_import_at, self.previous_debates_import_at)
+        self._vlog('Updating search index since %s' % update_since)
+        management.call_command('update_index', start=update_since, verbosity=self.verbosity, interactive=False)
+        self._vlog('Updated')
 
 
 def _local_date_time(dtstr):

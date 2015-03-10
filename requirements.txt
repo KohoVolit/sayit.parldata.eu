@@ -5,8 +5,8 @@ Django >= 1.7.1, < 1.8
 Django-Select2-Py3 >= 4.2.1, < 4.3
 django-qmethod == 0.0.3
 audioread >= 1.0.1
-pyelasticsearch >= 0.6, < 0.7
-django-haystack >= 2.1, < 2.2
+pyelasticsearch >= 1.0, < 2.0
+django-haystack >= 2.2, < 2.3
 django-bleach >= 0.2.1
 mysociety-django-popolo >= 0.0.2
 mysociety-django-sluggable >= 0.2.6
@@ -18,3 +18,4 @@ PyYAML
 django-apptemplates==0.0.1
 python-dateutil >= 2
 lxml
+elasticstack >= 0.1.1

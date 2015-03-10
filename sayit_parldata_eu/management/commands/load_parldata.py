@@ -22,6 +22,7 @@ class Command(BaseCommand):
             importer = ParldataImporter(settings.COUNTRY_CODE, settings.PARLIAMENT_CODE, **options)
             importer.load_speakers()
             importer.load_debates()
+            importer.update_search_index()
         else:
             # load data for all subdomains
             subdomains = get_subdomains()

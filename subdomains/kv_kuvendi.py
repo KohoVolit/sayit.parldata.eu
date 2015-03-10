@@ -6,6 +6,11 @@ PARLIAMENT_NAME = 'Kuvendit të Kosovës'
 LANGUAGE_CODE = 'sq'
 GA_PROPERTY_ID = '??'
 
+ELASTICSEARCH_ANALYZERS = {}
+ELASTICSEARCH_TOKENIZERS = {}
+ELASTICSEARCH_FILTERS = {}
+# ELASTICSEARCH_USE_ANALYZER = '??'
+
 
 # load project settings while respecting the above
 import os

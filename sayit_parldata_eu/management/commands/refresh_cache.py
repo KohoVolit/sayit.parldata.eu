@@ -14,7 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options.get('settings'):
             # refresh cache for the given subdomain
-            shutil.rmtree(settings.CACHES['default']['LOCATION'], ignore_errors=True)
+            shutil.rmtree(settings.CACHES['default'].get('LOCATION'), ignore_errors=True)
             importer = ParldataImporter(settings.COUNTRY_CODE, settings.PARLIAMENT_CODE, **options)
             importer.refresh_speakers_cache()
             importer.refresh_debates_cache()

@@ -138,6 +138,7 @@ INSTALLED_APPS = [
 ##    'django.contrib.admin',
 ##    'django.contrib.admindocs',
     'haystack',
+    'elasticstack',
     'django_select2',
     'django_bleach',
     'easy_thumbnails',
@@ -223,7 +224,7 @@ LOGGING = {
     }
 }
 
-# pagination related settings
+# Pagination related settings
 PAGINATION_DEFAULT_WINDOW = 2
 
 APPEND_SLASH = False
@@ -260,7 +261,7 @@ STATICFILES_FINDERS = (
     # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# django-bleach configuration
+# Django-bleach configuration
 BLEACH_ALLOWED_TAGS = [
     'a', 'abbr', 'b', 'i', 'u', 'span', 'sub', 'sup', 'br',
     'p',
@@ -273,7 +274,7 @@ BLEACH_ALLOWED_ATTRIBUTES = {
     'li': ['value'],
 }
 
-# easy-thumbnails configuration
+# Easy-thumbnails configuration
 # Class attribute so as not to activate and get caught in a circle
 from easy_thumbnails.conf import Settings
 
@@ -293,17 +294,67 @@ if 'test' in sys.argv:
 
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'ENGINE': 'elasticstack.backends.ConfigurableElasticSearchEngine',
         'URL': 'http://127.0.0.1:9200/',
         'INDEX_NAME': SEARCH_INDEX_NAME,
     },
-    'write': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': '%s_write' % SEARCH_INDEX_NAME,
-    },
 }
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+# ElasticSearch indexing settings
+# Default ES settings
+ELASTICSEARCH_INDEX_SETTINGS = {
+    'settings': {
+        "analysis": {
+            "analyzer": {
+                "ngram_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "lowercase",
+                    "filter": ["haystack_ngram"]
+                },
+                "edgengram_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "lowercase",
+                    "filter": ["haystack_edgengram"]
+                }
+            },
+            "tokenizer": {
+                "haystack_ngram_tokenizer": {
+                    "type": "nGram",
+                    "min_gram": 3,
+                    "max_gram": 15,
+                },
+                "haystack_edgengram_tokenizer": {
+                    "type": "edgeNGram",
+                    "min_gram": 2,
+                    "max_gram": 15,
+                    "side": "front"
+                }
+            },
+            "filter": {
+                "haystack_ngram": {
+                    "type": "nGram",
+                    "min_gram": 3,
+                    "max_gram": 15
+                },
+                "haystack_edgengram": {
+                    "type": "edgeNGram",
+                    "min_gram": 2,
+                    "max_gram": 15
+                }
+            }
+        }
+    }
+}
+# Add language specific settings
+if 'ELASTICSEARCH_ANALYZERS' in globals():
+    ELASTICSEARCH_INDEX_SETTINGS['settings']['analysis']['analyzer'].update(ELASTICSEARCH_ANALYZERS)
+if 'ELASTICSEARCH_TOKENIZERS' in globals():
+    ELASTICSEARCH_INDEX_SETTINGS['settings']['analysis']['tokenizer'].update(ELASTICSEARCH_TOKENIZERS)
+if 'ELASTICSEARCH_FILTERS' in globals():
+    ELASTICSEARCH_INDEX_SETTINGS['settings']['analysis']['filter'].update(ELASTICSEARCH_FILTERS)
+if 'ELASTICSEARCH_USE_ANALYZER' in globals():
+    ELASTICSEARCH_DEFAULT_ANALYZER = ELASTICSEARCH_USE_ANALYZER
 
 if 'GA_PROPERTY_ID' in globals():
     GOOGLE_ANALYTICS_ACCOUNT = '%s-%s' % (config.get('GOOGLE_ANALYTICS_ACCOUNT'), GA_PROPERTY_ID)

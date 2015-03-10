@@ -89,6 +89,18 @@ The following steps are needed to add a new parliament:
     and set the two-digit code of the property in the ``settings.py``
     file above.
 
+#.  Based on the ElasticSearch indexing settings for the new parliament
+    you may need to add a dictionary and affixation rules for a new
+    language to ElasticSearch config path (usually
+    ``/etc/elasticsearch`` or ``/usr/share/elasticsearch/config``) and
+    restart it. Those files for some languages are in
+    ``/conf/elasticsearch`` subdirectory in the repo.
+
+    See `Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`_
+    for tutorial on configuring ES indexing for a new language.
+
+    .. _`Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`: http://www.zdrojak.cz/clanky/elasticsearch-vyhledavame-hezky-cesky-ii-a-taky-slovensky/
+
 
 Importing of data
 =================
