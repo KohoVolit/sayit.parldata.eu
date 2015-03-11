@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: sayit\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-01-14 16:47+0000\n"
-"PO-Revision-Date: 2015-03-02 22:44+0000\n"
+"PO-Revision-Date: 2015-03-11 16:59+0000\n"
 "Last-Translator: Jaroslav Semančík <jaroslav_semancik@yahoo.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/sayit/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -349,7 +349,7 @@ msgstr "Treba vybrať existujúceho rečníka"
 
 #: forms.py:294
 msgid "Choose tags"
-msgstr "Vyberte tagy"
+msgstr "Vyberte nálepky"
 
 #: forms.py:313
 msgid "You must provide either text or some audio"
@@ -498,11 +498,11 @@ msgstr "rečníci"
 
 #: models.py:196
 msgid "tag"
-msgstr "tag"
+msgstr "nálepka"
 
 #: models.py:197 models.py:644
 msgid "tags"
-msgstr "tagy"
+msgstr "nálepky"
 
 #: models.py:225 models.py:593
 msgid "number"
@@ -1193,7 +1193,7 @@ msgstr "Udalosť a miesto"
 
 #: templates/speeches/speech_form.html:104
 msgid "Title &amp; Tags"
-msgstr "Nadpis a tagy"
+msgstr "Nadpis a nálepky"
 
 #: templates/speeches/speech_form.html:115
 msgid "Save changes"
