@@ -1300,3 +1300,7 @@ msgstr "hh:mm"
 #: templates/speeches/base.html:44
 msgid "Runs on"
 msgstr "Beží na"
+
+#: templates/speeches/recent_view.html:68
+msgid "All sessions..."
+msgstr "Všetky schôdze..."
