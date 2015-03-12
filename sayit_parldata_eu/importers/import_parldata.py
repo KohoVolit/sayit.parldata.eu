@@ -17,6 +17,7 @@ from speeches.models import Section, Speech, Speaker
 
 from . import vpapi
 
+API_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 LOGS_DIR = '/var/log/sayit/import'
 logger = logging.getLogger(__name__)
 
@@ -39,7 +40,7 @@ class ParldataImporter:
         logger.addHandler(handler)
         logger.setLevel(logging.DEBUG)
 
-        # set country specific info obtained from VPAPI
+        # set country specific info obtained from API
         resp = vpapi.get('')
         for country in resp['_links']['child']:
             if country['href'] == country_code:
@@ -96,7 +97,7 @@ class ParldataImporter:
         # update the people modified since the last import and create new ones
         updated_people = vpapi.getall(
             'people',
-            where={'updated_at': {'$gt': self.previous_speakers_import_at.isoformat()}}
+            where={'updated_at': {'$gt': self.previous_speakers_import_at.strftime(API_DATE_FORMAT)}}
         )
         count_c = 0
         count_u = 0
@@ -152,7 +153,7 @@ class ParldataImporter:
         # update the speeches modified since the last import and create new ones
         updated_speeches = vpapi.getall(
             'speeches',
-            where={'updated_at': {'$gt': self.previous_debates_import_at.isoformat()}},
+            where={'updated_at': {'$gt': self.previous_debates_import_at.strftime(API_DATE_FORMAT)}},
             sort='event_id,date,position'
         )
 
@@ -312,7 +313,8 @@ class ParldataImporter:
     def update_search_index(self):
         update_since = min(self.previous_speakers_import_at, self.previous_debates_import_at)
         self._vlog('Updating search index since %s' % update_since)
-        management.call_command('update_index', start=update_since, verbosity=self.verbosity, interactive=False)
+        management.call_command(
+            'update_index', start_date=update_since.isoformat(), verbosity=self.verbosity, interactive=False)
         self._vlog('Updated')
 
 
