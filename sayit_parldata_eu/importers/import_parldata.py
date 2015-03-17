@@ -17,7 +17,7 @@ from speeches.models import Section, Speech, Speaker
 
 from . import vpapi
 
-API_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
+API_DATE_FORMAT = '%4Y-%m-%dT%H:%M:%S'
 LOGS_DIR = '/var/log/sayit/import'
 logger = logging.getLogger(__name__)
 
@@ -130,8 +130,8 @@ class ParldataImporter:
             _record, created = _update_object(
                 Speaker.objects, person,
                 identifiers__identifier=person['id'],
-                defaults=defaults,
-                instance=self.instance
+                instance=self.instance,
+                defaults=defaults
             )
             count_c += created
             count_u += not created
@@ -139,6 +139,73 @@ class ParldataImporter:
         self._vlog('Imported %i persons (%i created, %i updated)' % (count_c+count_u, count_c, count_u))
 
         self.refresh_speakers_cache()
+
+    def _update_speech_sections(self, speech):
+        """Creates or updates sections corresponding to the event where
+        the speech occured and all its parent sections.
+        Returns the event of the speech, the corresponding section,
+        event title to use in speech objects and datetime of the event
+        (or its parents)."""
+        # create a list of all (parent-)events the speech belongs to
+        events = []
+        event_id = speech['event_id']
+        while event_id:
+            event = vpapi.get('events/%s' % event_id)
+            events.append(event)
+            event_id = event.get('parent_id')
+
+        self._vlog('Importing speeches to section `%s`' % events[0].get('name'))
+
+        section = None
+        event_title = ''
+        event_date = None
+
+        # create/update section corresponding to the chamber
+        org_id = events[0].get('organization_id')
+        if org_id:
+            org = vpapi.get('organizations/%s' % org_id)
+            defaults = {
+                'heading': org.get('name'),
+                'start_date': org.get('founding_date'),
+                'legislature': org.get('name') or '',
+                'source_url': '%s/%s/organizations/%s' % (self.api_url, self.parliament, org['id']),
+            }
+            section, created = Section.objects.update_or_create(
+                source_url=defaults['source_url'],
+                instance=self.instance,
+                defaults=defaults
+            )
+            if created:
+                self._vlog('Created section `%s`' % org.get('name'))
+            event_title = org.get('name', '')
+            event_date = org.get('founding_date')
+
+        # create/update all (parent-)sections the speech belongs to
+        session = {}
+        for event in reversed(events):
+            if event.get('type') == 'session':
+                session = event
+            sd, st = _local_date_time(event.get('start_date'))
+            defaults = {
+                'heading': event.get('name'),
+                'start_date': sd,
+                'start_time': st,
+                'legislature': org.get('name') or '',
+                'session': session.get('name') or '',
+                'parent': section,
+                'source_url': '%s/%s/events/%s' % (self.api_url, self.parliament, event['id']),
+            }
+            section, created = Section.objects.update_or_create(
+                source_url=defaults['source_url'],
+                instance=self.instance,
+                defaults=defaults
+            )
+            if created:
+                self._vlog('Created section `%s`' % event.get('name'))
+            event_title += (', ' if event_title else '') + event.get('name', '')
+            event_date = event.get('start_date') or event_date
+
+        return event, section, event_title, event_date
 
     def load_debates(self):
         self._vlog('Importing debates')
@@ -161,101 +228,27 @@ class ParldataImporter:
         speakers = {s.identifiers.filter(scheme='api.parldata.eu')[0].identifier: s
             for s in Speaker.objects.select_related('identifiers')}
 
-        sec_count_c = 0
-        sec_count_u = 0
-        sp_count_c = 0
-        sp_count_u = 0
-        chamber, chamber_object = {}, None
-        session, session_object = {}, None
-        sitting, sitting_object = {}, None
         speech_objects = []
-        updated_sections = []
+        event = {}
         for speech in updated_speeches:
-            if speech['event_id'] != sitting.get('id'):
-                # in case of initial import bulk create speeches when a new sitting occurs
+            if not speech.get('event_id'):
+                continue
+            if speech['event_id'] != event.get('id'):
                 if self.initial_import:
                     Speech.objects.bulk_create(speech_objects)
                     speech_objects = []
 
-                sitting = vpapi.get('events/%s' % speech['event_id'])
-
-                # create/update new section corresponding to the chamber
-                if sitting['organization_id'] != chamber.get('id'):
-                    chamber = vpapi.get('organizations/%s' % sitting['organization_id'])
-                    self._vlog('Importing chamber `%s`' % chamber.get('name'))
-                    defaults = {
-                        'heading': chamber.get('name'),
-                        'start_date': chamber.get('founding_date'),
-                        'legislature': chamber.get('name') or '',
-                        'source_url': '%s/%s/organizations/%s' % (self.api_url, self.parliament, chamber['id']),
-                    }
-                    chamber_object, created = Section.objects.update_or_create(
-                        source_url=defaults['source_url'],
-                        defaults=defaults,
-                        instance=self.instance
-                    )
-                    sec_count_c += created
-                    sec_count_u += not created
-                    updated_sections.append(chamber_object)
-
-                # create/update new section corresponding to eventual session
-                if not sitting.get('parent_id'):
-                    session = {}
-                    session_object = chamber_object
-                else:
-                    if sitting['parent_id'] != session.get('id'):
-                        session = vpapi.get('events/%s' % sitting['parent_id'])
-                        self._vlog('Importing session `%s`' % session.get('name'))
-                        sd, st = _local_date_time(session.get('start_date'))
-                        defaults = {
-                            'heading': session.get('name'),
-                            'start_date': sd,
-                            'start_time': st,
-                            'legislature': chamber.get('name') or '',
-                            'session': session.get('name') or '',
-                            'parent': chamber_object,
-                            'source_url': '%s/%s/events/%s' % (self.api_url, self.parliament, session['id']),
-                        }
-                        session_object, created = Section.objects.update_or_create(
-                            source_url=defaults['source_url'],
-                            defaults=defaults,
-                            instance=self.instance
-                        )
-                        sec_count_c += created
-                        sec_count_u += not created
-                        updated_sections.append(session_object)
-
-                # create/update new section corresponding to the sitting
-                self._vlog('Importing sitting `%s`' % sitting.get('name'))
-                sd, st = _local_date_time(sitting.get('start_date'))
-                defaults = {
-                    'heading': sitting.get('name'),
-                    'start_date': sd,
-                    'start_time': st,
-                    'legislature': chamber.get('name') or '',
-                    'session': session.get('name') or '',
-                    'parent': session_object,
-                    'source_url': '%s/%s/events/%s' % (self.api_url, self.parliament, sitting['id']),
-                }
-                sitting_object, created = Section.objects.update_or_create(
-                    source_url=defaults['source_url'],
-                    defaults=defaults,
-                    instance=self.instance
-                )
-                sec_count_c += created
-                sec_count_u += not created
-                updated_sections.append(sitting_object)
+                event, section, event_title, event_date = self._update_speech_sections(speech)
 
             # create/update the speech
             speaker = speakers.get(speech.get('creator_id'))
-            start = speech.get('date') or \
-                sitting.get('start_date') or session.get('start_date') or chamber.get('founding_date')
+            start = speech.get('date') or event_date
             sd, st = _local_date_time(start)
             defaults = {
                 'audio': speech.get('audio', ''),
                 'text': speech.get('text', ''),
-                'section': sitting_object,
-                'event': '%s, %s, %s' % (chamber.get('name'), session.get('name'), sitting.get('name')),
+                'section': section,
+                'event': event_title,
                 'speaker': speaker,
                 'type': speech.get('type', 'speech'),
                 'start_date': sd,
@@ -273,25 +266,30 @@ class ParldataImporter:
             if self.initial_import:
                 speech_object = Speech(instance=self.instance, **defaults)
                 speech_objects.append(speech_object)
-                created = True
             else:
-                speech_object, created = Speech.objects.update_or_create(
+                speech_object, _created = Speech.objects.update_or_create(
                     source_url=defaults['source_url'],
-                    defaults=defaults,
-                    instance=self.instance
+                    instance=self.instance,
+                    defaults=defaults
                 )
-            sp_count_c += created
-            sp_count_u += not created
 
-        # create speeches of the last sitting when doing initial import
+        # create speeches of the last section when doing initial import
         if self.initial_import:
             Speech.objects.bulk_create(speech_objects)
 
-        self._vlog('Imported %i sections (%i created, %i updated) and %i speeches (%i created, %i updated)' % (
-            sec_count_c+sec_count_u, sec_count_c, sec_count_u,
-            sp_count_c+sp_count_u, sp_count_c, sp_count_u))
+        # show some statistcics
+        modified_sections = Section.objects.filter(modified__gt=self.previous_debates_import_at).count()
+        new_sections = Section.objects.filter(created__gt=self.previous_debates_import_at).count()
 
-        self.refresh_debates_cache(updated_sections)
+        modified_speeches = Speech.objects.filter(modified__gt=self.previous_debates_import_at).count()
+        new_speeches = Speech.objects.filter(created__gt=self.previous_debates_import_at).count()
+
+        self._vlog('Imported %i sections (%i created, %i updated) and %i speeches (%i created, %i updated)' % (
+            modified_sections, new_sections, modified_sections-new_sections,
+            modified_speeches, new_speeches, modified_speeches-new_speeches)
+        )
+
+        self.refresh_debates_cache(self.previous_debates_import_at)
 
     def refresh_speakers_cache(self):
         self._vlog('Refreshing speakers list cache')
@@ -299,12 +297,11 @@ class ParldataImporter:
         self._refresh_cache('/speakers')
         self._vlog('Refreshed')
 
-    def refresh_debates_cache(self, sections=None):
+    def refresh_debates_cache(self, since_date=datetime.min):
         self._vlog('Refreshing sections cache')
         self._refresh_cache('/')
         self._refresh_cache('/speeches')
-        if sections is None:
-            sections = Section.objects.all()
+        sections = Section.objects.filter(modified__gt=since_date)
         for section in sections:
             self._vlog('Refreshing cache for section `%s`' % section.heading)
             self._refresh_cache(section.get_absolute_url())
