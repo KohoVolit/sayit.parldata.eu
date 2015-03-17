@@ -7,29 +7,29 @@ LANGUAGE_CODE = 'sk'
 GA_PROPERTY_ID = '??'
 
 ELASTICSEARCH_ANALYZERS = {
-    "slovak_hunspell" : {
-        "type" : "custom",
-        "tokenizer" : "standard",
-        "filter" : [ "stopwords_SK", "sk_SK", "lowercase", "stopwords_SK", "remove_duplicities" ],
+    'slovak_hunspell': {
+        'type': 'custom',
+        'tokenizer': 'standard',
+        'filter': ['stopwords_SK', 'sk_SK', 'lowercase', 'stopwords_SK', 'remove_duplicities'],
     },
 }
 ELASTICSEARCH_TOKENIZERS = {
 }
 ELASTICSEARCH_FILTERS = {
-    "stopwords_SK" : {
-        "type" : "stop",
-        "stopwords_path": "hunspell/sk_SK/sk_SK.stop",
-        "ignore_case" : True
+    'stopwords_SK': {
+        'type': 'stop',
+        'stopwords_path': 'hunspell/sk_SK/sk_SK.stop',
+        'ignore_case': True
     },
-    "sk_SK" : {
-        "type" : "hunspell",
-        "locale" : "sk_SK",
-        "dedup" : True,
-        "recursion_level" : 0
+    'sk_SK': {
+        'type': 'hunspell',
+        'locale': 'sk_SK',
+        'dedup': True,
+        'recursion_level': 0
     },
-    "remove_duplicities" : {
-        "type" : "unique",
-        "only_on_same_position" : True
+    'remove_duplicities': {
+        'type': 'unique',
+        'only_on_same_position': True
     },
 }
 ELASTICSEARCH_USE_ANALYZER = 'slovak_hunspell'

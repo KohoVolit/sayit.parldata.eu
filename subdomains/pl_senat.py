@@ -6,10 +6,26 @@ PARLIAMENT_NAME = 'Senat Rzeczypospolitej Polskiej'
 LANGUAGE_CODE = 'pl'
 GA_PROPERTY_ID = '??'
 
-ELASTICSEARCH_ANALYZERS = {}
+ELASTICSEARCH_ANALYZERS = {
+    'polish_morfologik': {
+        'type': 'custom',
+        'tokenizer': 'standard',
+        'filter': ['stopwords_PL', 'morfologik_stem', 'lowercase', 'stopwords_PL']
+    },
+}
 ELASTICSEARCH_TOKENIZERS = {}
-ELASTICSEARCH_FILTERS = {}
-# ELASTICSEARCH_USE_ANALYZER = '??'
+ELASTICSEARCH_FILTERS = {
+    'stopwords_PL': {
+        'type': 'stop',
+        'stopwords_path': 'pl_PL/pl_PL.stop',
+        'ignore_case': True
+    },
+#    'remove_duplicities': {
+#        'type': 'unique',
+#        'only_on_same_position': True
+#    },
+}
+ELASTICSEARCH_USE_ANALYZER = 'polish_morfologik'
 
 
 # load project settings while respecting the above

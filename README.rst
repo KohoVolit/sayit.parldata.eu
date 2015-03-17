@@ -90,16 +90,24 @@ The following steps are needed to add a new parliament:
     file above.
 
 #.  Based on the ElasticSearch indexing settings for the new parliament
-    you may need to add a dictionary and affixation rules for a new
-    language to ElasticSearch config path (usually
-    ``/etc/elasticsearch`` or ``/usr/share/elasticsearch/config``) and
-    restart it. Those files for some languages are in
-    ``/conf/elasticsearch`` subdirectory in the repo.
+    you may need to add some files for a new language to ElasticSearch
+    config path (usually ``/etc/elasticsearch`` or
+    ``/usr/share/elasticsearch/config``) and restart it. Those files for
+    some languages are in ``/conf/elasticsearch`` subdirectory in the
+    repo.
 
-    See `Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`_
-    for tutorial on configuring ES indexing for a new language.
+    Some useful resources on configuring languages in Elasticsearch:
+    * `Snowball Token Filter`_
+    * `LemmaGen Analysis for ElasticSearch`_
+    * `Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`_
+    * `Morfologik (Polish) Analysis for ElasticSearch`_
+    * `stop-words lists for many languages`_
 
+    .. _`Snowball Token Filter`: http://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-snowball-tokenfilter.html
+    .. _`LemmaGen Analysis for ElasticSearch`: https://github.com/vhyza/elasticsearch-analysis-lemmagen
     .. _`Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`: http://www.zdrojak.cz/clanky/elasticsearch-vyhledavame-hezky-cesky-ii-a-taky-slovensky/
+    .. _`Morfologik (Polish) Analysis for ElasticSearch`: https://github.com/monterail/elasticsearch-analysis-morfologik
+    .. _`stop-words lists for many languages`: https://code.google.com/p/stop-words/source/browse/trunk/stop-words/stop-words-collection-2014.02.24/stop-words
 
 
 Importing of data
