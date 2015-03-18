@@ -4,7 +4,7 @@ COUNTRY_CODE = 'pl'
 PARLIAMENT_CODE = 'senat'
 PARLIAMENT_NAME = 'Senat Rzeczypospolitej Polskiej'
 LANGUAGE_CODE = 'pl'
-#GA_PROPERTY_ID = '??'
+GA_PROPERTY_ID = '20'
 
 ELASTICSEARCH_ANALYZERS = {
     'polish_morfologik': {
