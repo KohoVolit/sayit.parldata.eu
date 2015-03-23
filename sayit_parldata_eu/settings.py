@@ -89,6 +89,7 @@ if not DEBUG:
 TEMPLATE_LOADERS = loaders
 
 MIDDLEWARE_CLASSES = [
+    'sayit_parldata_eu.middleware.PatchCacheHeadersMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
 ##    'django.contrib.sessions.middleware.SessionMiddleware',
