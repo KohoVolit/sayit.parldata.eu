@@ -765,7 +765,7 @@ msgstr "Importovať diskusné príspevky"
 
 #: templates/speeches/_home.html:27
 msgid "Search speeches and statements"
-msgstr "Hladať v diskusiách a výrokoch"
+msgstr "Hľadať v diskusiách a výrokoch"
 
 #: templates/speeches/_home.html:56
 #, python-format
