@@ -6,16 +6,18 @@ PARLIAMENT_NAME = 'Sejm Rzeczypospolitej Polskiej'
 LANGUAGE_CODE = 'pl'
 GA_PROPERTY_ID = '21'
 
+# requires Morfologik plugin for ElasticSearch
+# https://github.com/monterail/elasticsearch-analysis-morfologik
 ELASTICSEARCH_ANALYZERS = {
     'polish_morfologik': {
         'type': 'custom',
         'tokenizer': 'standard',
-        'filter': ['stopwords_PL', 'morfologik_stem', 'lowercase', 'stopwords_PL', 'remove_duplicities'],
+        'filter': ['stopwords_pl', 'morfologik_stem', 'lowercase', 'stopwords_pl', 'remove_duplicities'],
     },
 }
 ELASTICSEARCH_TOKENIZERS = {}
 ELASTICSEARCH_FILTERS = {
-    'stopwords_PL': {
+    'stopwords_pl': {
         'type': 'stop',
         'stopwords_path': 'pl_PL/pl_PL.stop',
         'ignore_case': True
