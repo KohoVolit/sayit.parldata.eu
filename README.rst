@@ -97,17 +97,18 @@ The following steps are needed to add a new parliament:
     repo.
 
     Some useful resources on configuring languages in Elasticsearch:
-    * `Snowball Token Filter`_
-    * `LemmaGen Analysis for ElasticSearch`_
-    * `Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`_
-    * `Morfologik (Polish) Analysis for ElasticSearch`_
-    * `stop-words lists for many languages`_
 
-    .. _`Snowball Token Filter`: http://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-snowball-tokenfilter.html
-    .. _`LemmaGen Analysis for ElasticSearch`: https://github.com/vhyza/elasticsearch-analysis-lemmagen
-    .. _`Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`: http://www.zdrojak.cz/clanky/elasticsearch-vyhledavame-hezky-cesky-ii-a-taky-slovensky/
-    .. _`Morfologik (Polish) Analysis for ElasticSearch`: https://github.com/monterail/elasticsearch-analysis-morfologik
-    .. _`stop-words lists for many languages`: https://code.google.com/p/stop-words/source/browse/trunk/stop-words/stop-words-collection-2014.02.24/stop-words
+        * `Snowball Token Filter`_
+        * `LemmaGen Analysis for ElasticSearch`_
+        * `Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`_
+        * `Morfologik (Polish) Analysis for ElasticSearch`_
+        * `stop-words lists for many languages`_
+
+        .. _`Snowball Token Filter`: http://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-snowball-tokenfilter.html
+        .. _`LemmaGen Analysis for ElasticSearch`: https://github.com/vhyza/elasticsearch-analysis-lemmagen
+        .. _`Elasticsearch: Vyhledáváme hezky česky (a taky slovensky)`: http://www.zdrojak.cz/clanky/elasticsearch-vyhledavame-hezky-cesky-ii-a-taky-slovensky/
+        .. _`Morfologik (Polish) Analysis for ElasticSearch`: https://github.com/monterail/elasticsearch-analysis-morfologik
+        .. _`stop-words lists for many languages`: https://code.google.com/p/stop-words/source/browse/trunk/stop-words/stop-words-collection-2014.02.24/stop-words
 
 
 Importing of data

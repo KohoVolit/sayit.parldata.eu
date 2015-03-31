@@ -102,11 +102,8 @@ class ParldataImporter:
         count_c = 0
         count_u = 0
         for person in updated_people:
-            # FIXME: fix for currently flawed Kosovo and Albanian data
-            if not person.get('name'): continue
-
             defaults = {
-                'name': person['name'][:128],
+                'name': person.get('name', '')[:128] or person['id'],
                 'family_name': person.get('family_name') or '',
                 'given_name': person.get('given_name') or '',
                 'additional_name': person.get('additional_name') or '',
@@ -122,10 +119,6 @@ class ParldataImporter:
                 'biography': person.get('biography') or '',
                 'image': urllib.parse.quote(person.get('image', ''), safe='/:'),
             }
-
-            # FIXME: fix for currently flawed Serbian data
-            if len(defaults['image']) >  200:
-                defaults['image'] = None
 
             _record, created = _update_object(
                 Speaker.objects, person,
@@ -165,7 +158,7 @@ class ParldataImporter:
         if org_id:
             org = vpapi.get('organizations/%s' % org_id)
             defaults = {
-                'heading': org.get('name'),
+                'heading': org.get('name') or '',
                 'start_date': org.get('founding_date'),
                 'legislature': org.get('name') or '',
                 'source_url': '%s/%s/organizations/%s' % (self.api_url, self.parliament, org['id']),
@@ -187,7 +180,7 @@ class ParldataImporter:
                 session = event
             sd, st = _local_date_time(event.get('start_date'))
             defaults = {
-                'heading': event.get('name'),
+                'heading': event.get('name') or '',
                 'start_date': sd,
                 'start_time': st,
                 'legislature': org.get('name') or '',
@@ -256,8 +249,9 @@ class ParldataImporter:
                 'source_url': '%s/%s/speeches/%s' % (self.api_url, self.parliament, speech['id']),
             }
             if speech.get('attribution_text'):
-                # FIXME: there are false attribution texts in Slovak and Albanian data
-                if len(speech['attribution_text']) < 100:
+                # FIXME: there are wrong attribution texts in some parliaments
+                if not (self.parliament in ('al/kuvendi', 'kv/kuvendi', 'rs/skupstina') or
+                        self.parliament == 'sk/nrsr' and len(speech['attribution_text']) > 80):
                     if speaker:
                         defaults['speaker_display'] = '%s, %s' % (speaker.name, speech['attribution_text'])
                     else:
@@ -331,7 +325,7 @@ def _update_object(qs, data, defaults=None, **kwargs):
         for item in data.get(l, []):
             rel = getattr(record, l)
             rel.update_or_create(
-                url=item['url'],
+                url=item['url'][:200],  # django-popolo limit is 200 chars
                 defaults={'note': item.get('note', '')}
             )
 
@@ -365,7 +359,7 @@ def _update_object(qs, data, defaults=None, **kwargs):
             )
             for src in cd.get('sources', []):
                 subrec.sources.update_or_create(
-                    url=src['url'],
+                    url=src['url'][:200],
                     defaults={'note': src.get('note', '')}
                 )
 
