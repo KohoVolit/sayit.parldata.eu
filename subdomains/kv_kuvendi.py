@@ -4,12 +4,12 @@ COUNTRY_CODE = 'kv'
 PARLIAMENT_CODE = 'kuvendi'
 PARLIAMENT_NAME = 'Kuvendit të Kosovës'
 LANGUAGE_CODE = 'sq'
-#GA_PROPERTY_ID = '??'
+GA_PROPERTY_ID = '25'
 
 ELASTICSEARCH_ANALYZERS = {}
 ELASTICSEARCH_TOKENIZERS = {}
 ELASTICSEARCH_FILTERS = {}
-# ELASTICSEARCH_USE_ANALYZER = '??'
+ELASTICSEARCH_USE_ANALYZER = 'standard'
 
 
 # load project settings while respecting the above
