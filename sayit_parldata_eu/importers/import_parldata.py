@@ -117,7 +117,7 @@ class ParldataImporter:
                 'death_date': person.get('death_date') or '',
                 'summary': person.get('summary') or '',
                 'biography': person.get('biography') or '',
-                'image': urllib.parse.quote(person.get('image', ''), safe='/:'),
+                'image': urllib.parse.quote(person.get('image', ''), safe=':/%'),
             }
 
             _record, created = _update_object(
