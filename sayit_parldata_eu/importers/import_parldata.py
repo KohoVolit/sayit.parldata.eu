@@ -295,7 +295,7 @@ class ParldataImporter:
         self._vlog('Refreshing sections cache')
         self._refresh_cache('/')
         self._refresh_cache('/speeches')
-        sections = Section.objects.filter(modified__gt=since_date)
+        sections = Section.objects.filter(modified__gte=since_date)
         for section in sections:
             self._vlog('Refreshing cache for section `%s`' % section.heading)
             self._refresh_cache(section.get_absolute_url())
