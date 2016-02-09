@@ -27,6 +27,12 @@ class Command(BaseCommand):
             # load data for all subdomains
             subdomains = get_subdomains()
             for sd in subdomains:
-                subprocess.call(
-                    '%s/bin/python %s/manage.py load_parldata --settings subdomains.%s --verbosity %s' %
-                    (settings.VIRTUALENV_DIR, settings.PROJECT_ROOT, sd, options['verbosity']), shell=True)
+                try:
+                    subprocess.call(
+                        '%s/bin/python %s/manage.py load_parldata --settings subdomains.%s --verbosity %s' %
+                        (settings.VIRTUALENV_DIR, settings.PROJECT_ROOT, sd, options['verbosity']), shell=True)
+                except KeyboardInterrupt:
+                    raise
+                except:
+                    # output to console to provoke an e-mail from Cron
+                    print('SayIt data import failed for parliament %s.' % sd)
