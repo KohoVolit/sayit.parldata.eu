@@ -2,3 +2,7 @@
 # www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
 
 User-agent: *
+Disallow: /speaker/add
+Disallow: /speech/add
+Disallow: /section/add
+Disallow: /import/popolo
