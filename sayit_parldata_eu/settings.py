@@ -24,7 +24,6 @@ except:
     DEBUG_TOOLBAR = False
 
 ADMINS = (
-    ('Jaro Semančík', 'jaroslav_semancik@yahoo.com'),
 )
 
 MANAGERS = ADMINS
